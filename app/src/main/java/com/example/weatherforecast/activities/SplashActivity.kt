@@ -11,6 +11,7 @@ import com.example.weatherforecast.adapters.CityAdapter
 import com.example.weatherforecast.application.App
 import com.example.weatherforecast.application.AppDatabase
 import com.example.weatherforecast.models.City
+import com.example.weatherforecast.models.CityReporsitory
 import com.example.weatherforecast.utils.Utils
 import kotlinx.android.synthetic.main.activity_select_city.*
 import org.json.JSONArray
@@ -22,23 +23,21 @@ import java.util.concurrent.Executors
 class SplashActivity : AppCompatActivity() {
 
     lateinit var cityList: ArrayList<City>
+    private lateinit var cityReporsitory: CityReporsitory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        val cityDao = App.appDatabase.cityDao()
-
-        if (cityDao.getAll().isEmpty()) {
-            // Insert City Data
-            cityDao.insertAll(loadCities())
-
-            navigateToCitiesActivity()
+        cityReporsitory = CityReporsitory(this)
+        cityReporsitory.deleteAllCities()
+        if (cityReporsitory.getAllCities().isEmpty()) {
+            loadCities()
         } else {
             navigateToCitiesActivity()
         }
     }
 
-    private fun loadCities(): ArrayList<City> {
+    private fun loadCities() {
         cityList = ArrayList()
         // load cities and save to database
         try {
@@ -50,10 +49,13 @@ class SplashActivity : AppCompatActivity() {
                 val country = jsonObject.getString("country")
                 cityList.add(City(id, name, country))
             }
+            // Insert City Data
+            cityReporsitory.insertAllCities(cityList)
         } catch (e: JSONException) {
             e.printStackTrace()
+        } finally {
+            navigateToCitiesActivity()
         }
-        return cityList
     }
 
 

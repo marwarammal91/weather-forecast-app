@@ -41,7 +41,7 @@ class CityAdapter(var cityListItems: ArrayList<City>,
 
         @SuppressLint("SetTextI18n")
         fun bind(field: City) {
-            checkBox.text = "Country:" + field.country + " - City:" + field.name
+            checkBox.text = "City: " + field.name + "\nCountry: " + field.country
             if (selectedItems.any { it.name == field.name }) {
                 checkBox.isChecked = true
                 field.isFavorite = true

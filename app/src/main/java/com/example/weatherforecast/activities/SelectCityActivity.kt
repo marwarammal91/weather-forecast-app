@@ -2,7 +2,6 @@ package com.example.weatherforecast.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View.VISIBLE
 import android.widget.SearchView
@@ -13,6 +12,7 @@ import com.example.weatherforecast.adapters.CityAdapter
 import com.example.weatherforecast.application.App
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityDao
+import com.example.weatherforecast.models.CityReporsitory
 import kotlinx.android.synthetic.main.activity_select_city.*
 import kotlinx.android.synthetic.main.layout_header.*
 
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.layout_header.*
 class SelectCityActivity : AppCompatActivity() {
 
     private lateinit var cityAdapter: CityAdapter
-    private lateinit var cityDao: CityDao
+    private lateinit var cityRepository: CityReporsitory
 
     var searchQuery = ""
 
@@ -28,7 +28,7 @@ class SelectCityActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_city)
 
-        cityDao = App.appDatabase.cityDao()
+        cityRepository = CityReporsitory(this)
 
         // header view
         titleTextView.text = getString(R.string.select_city)
@@ -44,8 +44,8 @@ class SelectCityActivity : AppCompatActivity() {
         rvMultiSelect.layoutManager = llManager
 
         // get selected cities
-        val selectedItems = cityDao.getAllFavoriteCities()
-        val cityLists = cityDao.getAll()
+        val selectedItems = cityRepository.getAllFavoriteCities()
+        val cityLists = cityRepository.getAllCities()
         cityAdapter = CityAdapter(ArrayList(cityLists), ArrayList(selectedItems))
         rvMultiSelect.adapter = cityAdapter
 
@@ -70,9 +70,9 @@ class SelectCityActivity : AppCompatActivity() {
     }
 
     private fun generateList(search: String) {
-        var filteredDataList = cityDao.findByNameCountry(search, search)
-        if (search.isNotEmpty()) {
-            filteredDataList = cityDao.getAll()
+        var filteredDataList = cityRepository.findSearchedCity(search)
+        if (search.isEmpty()) {
+            filteredDataList = cityRepository.getAllCities()
         }
 
         val size = cityAdapter.cityListItems.size
@@ -88,12 +88,11 @@ class SelectCityActivity : AppCompatActivity() {
         for (i in 0 until cityAdapter.itemCount) {
             if (cityAdapter.getItem(i).isFavorite) {
                 val updateCity = cityAdapter.getItem(i)
-                cityDao.updateCity(updateCity.isFavorite, updateCity.cityId)
+                cityRepository.updateCity(updateCity.isFavorite, updateCity.cityId)
                 arrayOfSelectedItems.add(cityAdapter.getItem(i))
             }
         }
         val output = Intent()
-        output.putExtra("result", arrayOfSelectedItems)
         setResult(Activity.RESULT_OK, output)
         finish()
     }
