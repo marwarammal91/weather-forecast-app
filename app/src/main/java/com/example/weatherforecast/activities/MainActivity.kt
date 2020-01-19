@@ -9,14 +9,12 @@ import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
 import com.example.weatherforecast.adapters.CityAdapter
-import com.example.weatherforecast.adapters.SelectCityAdapter
 import com.example.weatherforecast.fragments.InfoDialog
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityReporsitory
-import kotlinx.android.synthetic.main.activity_cities.*
-import kotlinx.android.synthetic.main.activity_select_city.*
+import kotlinx.android.synthetic.main.activity_main.*
 
-class CitiesActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     var infoDialogFragment: InfoDialog? = null
     private lateinit var cityRepository: CityReporsitory
@@ -26,7 +24,7 @@ class CitiesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cities)
+        setContentView(R.layout.activity_main)
 
         cityRepository = CityReporsitory(this)
         cityAdapter = CityAdapter(this, arrayListOf())
