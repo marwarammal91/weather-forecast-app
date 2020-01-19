@@ -17,4 +17,10 @@ data class City(val cityId: Int, val cityName: String, val cityCountry: String) 
         this.name = cityName
         this.country = cityCountry
     }
+
+    override fun toString(): String {
+        return "City: $name\nCountry: $country"
+    }
+
+
 }

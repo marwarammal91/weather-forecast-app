@@ -8,10 +8,8 @@ import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
-import com.example.weatherforecast.adapters.CityAdapter
-import com.example.weatherforecast.application.App
+import com.example.weatherforecast.adapters.SelectCityAdapter
 import com.example.weatherforecast.models.City
-import com.example.weatherforecast.models.CityDao
 import com.example.weatherforecast.models.CityReporsitory
 import kotlinx.android.synthetic.main.activity_select_city.*
 import kotlinx.android.synthetic.main.layout_header.*
@@ -19,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_header.*
 
 class SelectCityActivity : AppCompatActivity() {
 
-    private lateinit var cityAdapter: CityAdapter
+    private lateinit var selectCityAdapter: SelectCityAdapter
     private lateinit var cityRepository: CityReporsitory
 
     var searchQuery = ""
@@ -36,7 +34,7 @@ class SelectCityActivity : AppCompatActivity() {
             finish()
         }
         saveTextView.visibility = VISIBLE
-        saveTextView.setOnClickListener{
+        saveTextView.setOnClickListener {
             save()
         }
 
@@ -46,8 +44,8 @@ class SelectCityActivity : AppCompatActivity() {
         // get selected cities
         val selectedItems = cityRepository.getAllFavoriteCities()
         val cityLists = cityRepository.getAllCities()
-        cityAdapter = CityAdapter(ArrayList(cityLists), ArrayList(selectedItems))
-        rvMultiSelect.adapter = cityAdapter
+        selectCityAdapter = SelectCityAdapter(ArrayList(cityLists), ArrayList(selectedItems))
+        rvMultiSelect.adapter = selectCityAdapter
 
         // search view
         citySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -75,21 +73,21 @@ class SelectCityActivity : AppCompatActivity() {
             filteredDataList = cityRepository.getAllCities()
         }
 
-        val size = cityAdapter.cityListItems.size
-        cityAdapter.cityListItems.clear()
-        cityAdapter.notifyItemRangeRemoved(0, size)
-        cityAdapter.updateList(ArrayList(filteredDataList))
-        cityAdapter.notifyItemInserted(filteredDataList.size)
-        cityAdapter.notifyDataSetChanged()
+        val size = selectCityAdapter.cityListItems.size
+        selectCityAdapter.cityListItems.clear()
+        selectCityAdapter.notifyItemRangeRemoved(0, size)
+        selectCityAdapter.updateList(ArrayList(filteredDataList))
+        selectCityAdapter.notifyItemInserted(filteredDataList.size)
+        selectCityAdapter.notifyDataSetChanged()
     }
 
     private fun save() {
         val arrayOfSelectedItems = ArrayList<City>()
-        for (i in 0 until cityAdapter.itemCount) {
-            if (cityAdapter.getItem(i).isFavorite) {
-                val updateCity = cityAdapter.getItem(i)
+        for (i in 0 until selectCityAdapter.itemCount) {
+            if (selectCityAdapter.getItem(i).isFavorite) {
+                val updateCity = selectCityAdapter.getItem(i)
                 cityRepository.updateCity(updateCity.isFavorite, updateCity.cityId)
-                arrayOfSelectedItems.add(cityAdapter.getItem(i))
+                arrayOfSelectedItems.add(selectCityAdapter.getItem(i))
             }
         }
         val output = Intent()

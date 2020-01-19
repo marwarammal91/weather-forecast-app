@@ -5,18 +5,23 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.FragmentActivity
+import android.view.View.VISIBLE
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
-import com.example.weatherforecast.application.App
+import com.example.weatherforecast.adapters.CityAdapter
+import com.example.weatherforecast.adapters.SelectCityAdapter
 import com.example.weatherforecast.fragments.InfoDialog
-import com.example.weatherforecast.models.CityDao
+import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityReporsitory
 import kotlinx.android.synthetic.main.activity_cities.*
+import kotlinx.android.synthetic.main.activity_select_city.*
 
 class CitiesActivity : AppCompatActivity() {
 
     var infoDialogFragment: InfoDialog? = null
     private lateinit var cityRepository: CityReporsitory
+    lateinit var cityAdapter: CityAdapter
+    lateinit var favoriteItems: List<City>
     val SELECT_CITY_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,17 +29,28 @@ class CitiesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cities)
 
         cityRepository = CityReporsitory(this)
+        cityAdapter = CityAdapter(this, arrayListOf())
 
         // set click listeners
-        addCityBtn.setOnClickListener(onClickListers)
-        infoBtn.setOnClickListener(onClickListers)
+        addCityBtn.setOnClickListener(onClickListeners)
+        infoBtn.setOnClickListener(onClickListeners)
+        nextBtn.setOnClickListener(onClickListeners)
 
-        if (cityRepository.getAllFavoriteCities().isEmpty()) {
+        favoriteItems = cityRepository.getAllFavoriteCities()
+
+        if (favoriteItems.isEmpty()) {
             showInfoDialog()
+        } else {
+            citiesCardView.visibility = VISIBLE
+            val llManager = LinearLayoutManager(this)
+            favoriteCitiesRecycleView.layoutManager = llManager
+
+            cityAdapter = CityAdapter(activity = this, favoriteCityList = ArrayList(favoriteItems))
+            favoriteCitiesRecycleView.adapter = cityAdapter
         }
     }
 
-    private val onClickListers =  View.OnClickListener { view ->
+    private val onClickListeners =  View.OnClickListener { view ->
         when (view.id) {
             R.id.addCityBtn -> {
                 val intent = Intent(this, SelectCityActivity::class.java)
@@ -42,6 +58,13 @@ class CitiesActivity : AppCompatActivity() {
             }
             R.id.infoBtn -> {
                 showInfoDialog()
+            }
+            R.id.nextBtn -> {
+                if (favoriteItems.size < 3) {
+                    showInfoDialog()
+                } else {
+                    // go to weather display page
+                }
             }
         }
     }
@@ -58,7 +81,18 @@ class CitiesActivity : AppCompatActivity() {
 
         // handle selected cities
         if (resultCode == Activity.RESULT_OK) {
+            favoriteItems = cityRepository.getAllFavoriteCities()
 
+            if (favoriteItems.isEmpty()) {
+                showInfoDialog()
+            } else {
+                val size = cityAdapter.favoriteCityList.size
+                cityAdapter.favoriteCityList.clear()
+                cityAdapter.notifyItemRangeRemoved(0, size)
+                cityAdapter.updateList(ArrayList(favoriteItems))
+                cityAdapter.notifyItemInserted(favoriteItems.size)
+                cityAdapter.notifyDataSetChanged()
+            }
         }
     }
 

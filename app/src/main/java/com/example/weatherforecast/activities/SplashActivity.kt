@@ -1,23 +1,14 @@
 package com.example.weatherforecast.activities
 
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import com.example.weatherforecast.R
-import com.example.weatherforecast.adapters.CityAdapter
-import com.example.weatherforecast.application.App
-import com.example.weatherforecast.application.AppDatabase
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityReporsitory
 import com.example.weatherforecast.utils.Utils
-import kotlinx.android.synthetic.main.activity_select_city.*
 import org.json.JSONArray
 import org.json.JSONException
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 
 class SplashActivity : AppCompatActivity() {
@@ -29,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         cityReporsitory = CityReporsitory(this)
-        cityReporsitory.deleteAllCities()
+
         if (cityReporsitory.getAllCities().isEmpty()) {
             loadCities()
         } else {

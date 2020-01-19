@@ -1,53 +1,53 @@
 package com.example.weatherforecast.adapters
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
+import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.models.City
+import com.example.weatherforecast.models.CityReporsitory
 
+class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>) :
+    RecyclerView.Adapter<CityAdapter.CityHolder>() {
 
-class CityAdapter(var cityListItems: ArrayList<City>,
-                  var selectedItems: ArrayList<City>) :
-    RecyclerView.Adapter<CityAdapter.CityMultiSelectHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityMultiSelectHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.multiselect_row_item, parent, false)
-        return CityMultiSelectHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.city_row_item, parent, false)
+        return CityHolder(view)
     }
 
     fun updateList(cityList: ArrayList<City>) {
-        this.cityListItems = cityList
+        this.favoriteCityList = cityList
     }
 
-    fun getItem(position: Int): City = cityListItems[position]
-
-    override fun getItemCount(): Int = cityListItems.size
+    override fun getItemCount(): Int = favoriteCityList.size
 
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getItemViewType(position: Int): Int = position
 
-    override fun onBindViewHolder(holder: CityMultiSelectHolder, position: Int) {
-        val field = cityListItems[position]
+    override fun onBindViewHolder(holder: CityHolder, position: Int) {
+        val field = favoriteCityList[position]
         holder.bind(field)
     }
 
-    inner class CityMultiSelectHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var checkBox = itemView.findViewById<CheckBox>(R.id.multiSelectItem)
+    inner class CityHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var cityText = itemView.findViewById<TextView>(R.id.cityItemText)
+        private var deleteBtn = itemView.findViewById<Button>(R.id.deleteBtn)
 
-        @SuppressLint("SetTextI18n")
         fun bind(field: City) {
-            checkBox.text = "City: " + field.name + "\nCountry: " + field.country
-            if (selectedItems.any { it.name == field.name }) {
-                checkBox.isChecked = true
-                field.isFavorite = true
-            }
-            checkBox!!.setOnClickListener {
-                field.isFavorite = checkBox.isChecked
+            cityText.text = field.toString()
+
+            deleteBtn.setOnClickListener {
+                val  cityRepository = CityReporsitory(activity)
+                cityRepository.updateCity(isFavorite = false, cityId = field.id)
+
+                favoriteCityList.remove(field)
+                updateList(favoriteCityList)
+                notifyDataSetChanged()
             }
         }
     }
