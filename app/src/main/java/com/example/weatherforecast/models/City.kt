@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "city")
 data class City(val cityId: Int, val cityName: String, val cityCountry: String) {
 
-    @PrimaryKey val id: Int = 0
-    @ColumnInfo(name = "name") val name: String = ""
-    @ColumnInfo(name = "country") val country: String = ""
+    @PrimaryKey var id: Int = 0
+    @ColumnInfo(name = "name") var name: String = ""
+    @ColumnInfo(name = "country") var country: String = ""
 
 }
