@@ -28,4 +28,15 @@
         android:layout_centerInParent="true"
         tools:text="title" />
 
+    <TextView
+        android:id="@+id/saveTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/select"
+        android:textColor="@color/colorWhite"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
 </RelativeLayout>
