@@ -16,4 +16,7 @@
     <string name="select_city">Select Cities</string>
     <string name="select">Select</string>
 
+    <string name="settings_location_message">App requires permission to access your location to get your current weather info. Grant them in app settings.</string>
+    <string name="denying_location_message">App requires permission to access your location to get your current weather info.</string>
+
 </resources>
