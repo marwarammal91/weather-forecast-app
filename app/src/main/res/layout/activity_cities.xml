@@ -7,7 +7,6 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".activities.CitiesActivity">
 
-
     <ImageButton
         android:id="@+id/infoBtn"
         android:layout_width="wrap_content"
