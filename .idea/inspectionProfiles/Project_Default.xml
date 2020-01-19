@@ -1,0 +1,98 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="AndroidLintClickableViewAccessibility" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintContentDescription" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintKeyboardInaccessibleWidget" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintLabelFor" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="AnonymousInnerClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="AnonymousInnerClassMayBeStatic" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="AssignmentOrReturnOfFieldWithMutableType" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="BadExceptionCaught" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="BadExceptionDeclared" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="BadExceptionThrown" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="CatchMayIgnoreException" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="CaughtExceptionImmediatelyRethrown" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="CheckedExceptionClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ClassInitializer" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ClassMayBeInterface" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ClassNameDiffersFromFileName" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ClassWithOnlyPrivateConstructors" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ConstantDeclaredInAbstractClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ConstantDeclaredInInterface" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ContinueOrBreakFromFinallyBlock" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="EmptyClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="EmptyFinallyBlock" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="EmptyTryBlock" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ErrorRethrown" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ExceptionFromCatchWhichDoesntWrap" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ExtendsThrowable" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="FieldCanBeLocal" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="FinalClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="FinalMethod" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="FinalMethodInFinalClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="FinalPrivateMethod" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="FinalStaticMethod" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="FinallyBlockCannotCompleteNormally" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="InnerClassMayBeStatic" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="InnerClassOnInterface" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="InstanceofCatchParameter" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="InterfaceMayBeAnnotatedFunctional" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="JavaLangImport" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="LimitedScopeInnerClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ListenerMayUseAdapter" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="MarkerInterface" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="MethodReturnAlwaysConstant" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="MultipleTopLevelClassesInFile" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NestedTryStatement" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NewExceptionWithoutArguments" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NonFinalFieldInEnum" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NonFinalFieldOfException" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NonFinalUtilityClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NoopMethodInAbstractClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NullThrown" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="OnDemandImport" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="PackageVisibleField" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="PackageVisibleInnerClass" enabled="false" level="ERROR" enabled_by_default="false">
+      <option name="ignoreEnums" value="false" />
+      <option name="ignoreInterfaces" value="false" />
+    </inspection_tool>
+    <inspection_tool class="ParameterCanBeLocal" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ProtectedField" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ProtectedInnerClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ProtectedMemberInFinalClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="PublicConstructor" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="PublicConstructorInNonPublicClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="PublicField" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="PublicInnerClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ReturnFromFinallyBlock" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ReturnOfInnerClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="SamePackageImport" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="SingleClassImport" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="Singleton" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="StaticCollection" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="StaticImport" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="StaticNonFinalField" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="StringBufferField" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="SystemGC" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ThreadDeathRethrown" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ThrowCaughtLocally" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ThrowFromFinallyBlock" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ThrowsRuntimeException" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="TooBroadCatch" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="TooBroadThrows" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="UNUSED_IMPORT" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="UncheckedExceptionClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="UnnecessaryEmptyArrayUsage" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="UnnecessaryInitCause" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="UseOfAnotherObjectsPrivateField" enabled="false" level="ERROR" enabled_by_default="false">
+      <option name="ignoreSameClass" value="false" />
+      <option name="ignoreEquals" value="false" />
+    </inspection_tool>
+    <inspection_tool class="UtilityClass" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="UtilityClassCanBeEnum" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="UtilityClassWithPublicConstructor" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="UtilityClassWithoutPrivateConstructor" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ZeroLengthArrayInitialization" enabled="false" level="ERROR" enabled_by_default="false" />
+  </profile>
+</component>
