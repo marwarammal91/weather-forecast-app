@@ -3,13 +3,20 @@ package com.example.weatherforecast.activities
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import com.example.weatherforecast.R
+import com.example.weatherforecast.adapters.CityAdapter
+import com.example.weatherforecast.application.App
 import com.example.weatherforecast.application.AppDatabase
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.utils.Utils
+import kotlinx.android.synthetic.main.activity_select_city.*
 import org.json.JSONArray
 import org.json.JSONException
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 
 class SplashActivity : AppCompatActivity() {
@@ -19,10 +26,19 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        loadCities()
+        val cityDao = App.appDatabase.cityDao()
+
+        if (cityDao.getAll().isEmpty()) {
+            // Insert City Data
+            cityDao.insertAll(loadCities())
+
+            navigateToCitiesActivity()
+        } else {
+            navigateToCitiesActivity()
+        }
     }
 
-    private fun loadCities() {
+    private fun loadCities(): ArrayList<City> {
         cityList = ArrayList()
         // load cities and save to database
         try {
@@ -34,15 +50,10 @@ class SplashActivity : AppCompatActivity() {
                 val country = jsonObject.getString("country")
                 cityList.add(City(id, name, country))
             }
-            AsyncTask.execute {
-                // Insert City Data
-                AppDatabase(this).cityDao().insertAll(cityList)
-            }
         } catch (e: JSONException) {
             e.printStackTrace()
-        } finally {
-            navigateToCitiesActivity()
         }
+        return cityList
     }
 
 
