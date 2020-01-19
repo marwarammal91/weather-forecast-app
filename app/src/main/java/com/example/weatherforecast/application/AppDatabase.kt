@@ -11,7 +11,6 @@ import com.example.weatherforecast.models.CityDao
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cityDao(): CityDao
 
-
     companion object {
         @Volatile private var instance: AppDatabase? = null
         private val LOCK = Any()
@@ -24,5 +23,9 @@ abstract class AppDatabase : RoomDatabase() {
             AppDatabase::class.java, "weather-app.db")
             .allowMainThreadQueries()
             .build()
+
+        fun deleteInstance() {
+            instance = null
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.weatherforecast.models
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -28,4 +27,7 @@ interface CityDao {
 
     @Delete
     fun delete(city: City)
+
+    @Query("DELETE FROM city")
+    fun deleteAllCities()
 }
