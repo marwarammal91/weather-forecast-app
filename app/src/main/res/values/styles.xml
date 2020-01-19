@@ -27,4 +27,9 @@
         <item name="android:background">@drawable/rounded_btn</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="app_title_style">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">25sp</item>
+    </style>
 </resources>
