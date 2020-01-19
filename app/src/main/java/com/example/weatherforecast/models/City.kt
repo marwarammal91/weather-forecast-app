@@ -10,5 +10,11 @@ data class City(val cityId: Int, val cityName: String, val cityCountry: String) 
     @PrimaryKey var id: Int = 0
     @ColumnInfo(name = "name") var name: String = ""
     @ColumnInfo(name = "country") var country: String = ""
+    @ColumnInfo(name = "isFavorite") var isFavorite: Boolean = false
 
+    init {
+        this.id = cityId
+        this.name = cityName
+        this.country = cityCountry
+    }
 }
