@@ -12,4 +12,8 @@
     <string name="manage_cities_alert">Weather forecast app shows weather forecast for multiple cities from your choice.
         \nYou should enter minimum 3 cities and max 7 cities in addition to your current location !</string>
     <string name="search_city_name">Search by city name or country</string>
+
+    <string name="select_city">Select Cities</string>
+    <string name="select">Select</string>
+
 </resources>
