@@ -1,0 +1,48 @@
+package com.example.weatherforecast.models
+
+import androidx.room.Room
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.example.weatherforecast.application.AppDatabase
+import org.hamcrest.CoreMatchers.equalTo
+import org.junit.After
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.IOException
+
+
+@RunWith(AndroidJUnit4::class)
+class CityEntityTest {
+    private lateinit var cityDao: CityDao
+    private lateinit var db: AppDatabase
+
+    @Before
+    fun createDb() {
+        val context = InstrumentationRegistry.getInstrumentation().context
+        db = Room.inMemoryDatabaseBuilder(
+            context, AppDatabase::class.java).build()
+        cityDao = db.cityDao()
+    }
+
+    @After
+    @Throws(IOException::class)
+    fun closeDb() {
+        db.close()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeUserAndReadInList() {
+        // insert a city object
+        val city = City(1, "Beirut", "Lebanon")
+        val cityList = ArrayList<City>()
+        cityList.add(city)
+        cityDao.insertAll(cityList)
+        // read inserted object
+        val cityItem = cityDao.findByNameCountry(city.name, city.country)[0]
+        // make sure it's the same object as inserted
+        assertThat(cityItem, equalTo(city))
+    }
+}

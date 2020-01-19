@@ -9,9 +9,9 @@ interface CityDao {
     @Query("SELECT * FROM city")
     fun getAll() : List<City>
 
-    @Query("SELECT * FROM city WHERE name LIKE :nameStr AND "
+    @Query("SELECT * FROM city WHERE name LIKE :nameStr or "
             + "country LIKE :countyStr")
-    fun findByNameCountry(nameStr: String = "", countyStr: String = ""): LiveData<List<City>>
+    fun findByNameCountry(nameStr: String = "", countyStr: String = ""): List<City>
 
     // replace the existing item
     @Insert(onConflict = OnConflictStrategy.REPLACE)
