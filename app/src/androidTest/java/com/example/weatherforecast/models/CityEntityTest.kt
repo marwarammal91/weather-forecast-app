@@ -36,7 +36,9 @@ class CityEntityTest {
     @Throws(Exception::class)
     fun writeUserAndReadInList() {
         // insert a city object
-        val city = City(1, "Beirut", "Lebanon")
+        val coord = Coord(  35.494419, 33.888939)
+        val city = City(276781, "Beirut", "Lebanon")
+        city.coord = coord
         val cityList = ArrayList<City>()
         cityList.add(city)
         cityDao.insertAll(cityList)

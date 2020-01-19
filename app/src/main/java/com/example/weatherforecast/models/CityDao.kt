@@ -30,4 +30,8 @@ interface CityDao {
 
     @Query("DELETE FROM city")
     fun deleteAllCities()
+
+    @Query("SELECT * FROM city WHERE lon LIKE :lon AND "
+            + "lat LIKE :lat")
+    fun fetchCurrentCity(lon: Double, lat: Double): City
 }

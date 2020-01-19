@@ -14,10 +14,12 @@ import androidx.core.content.ContextCompat
 import com.example.weatherforecast.R
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityReporsitory
+import com.example.weatherforecast.models.Coord
 import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
 import org.json.JSONArray
 import org.json.JSONException
+import org.json.JSONObject
 
 
 class SplashActivity : AppCompatActivity() {
@@ -63,7 +65,14 @@ class SplashActivity : AppCompatActivity() {
                 val id = jsonObject.getInt("id")
                 val name = jsonObject.getString("name")
                 val country = jsonObject.getString("country")
-                cityList.add(City(id, name, country))
+
+                val coordJson = jsonObject.getJSONObject("coord")
+                val lon = coordJson.getDouble("lon")
+                val lat = coordJson.getDouble("lat")
+                val coord = Coord(lon, lat)
+                val city = City(id, name, country)
+                city.coord = coord
+                cityList.add(city)
             }
             // Insert City Data
             cityRepository.insertAllCities(cityList)
