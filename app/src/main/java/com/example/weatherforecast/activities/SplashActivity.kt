@@ -62,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
     private fun checkCities() {
         GlobalScope.launch(Dispatchers.IO) {
             if (cityDao.getAll().isEmpty()) {
-                LoadCitiesTask(cityDao, activity, progressBar).execute()
+                LoadCitiesTask(cityDao, activity).execute()
             } else {
                 navigateToCitiesActivity()
             }
@@ -139,8 +139,7 @@ class SplashActivity : AppCompatActivity() {
 
     private class LoadCitiesTask constructor(
         val cityDao: CityDao,
-        val activity: Activity,
-        val progressBar: RelativeLayout
+        val activity: Activity
     ) :
         AsyncTask<List<City>, Void, Void?>() {
 
