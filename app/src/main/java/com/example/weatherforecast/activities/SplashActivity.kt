@@ -7,6 +7,9 @@ import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,6 +19,7 @@ import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityDao
 import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
+import kotlinx.android.synthetic.main.activity_splash.progressBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -58,7 +62,8 @@ class SplashActivity : AppCompatActivity() {
     private fun checkCities() {
         GlobalScope.launch(Dispatchers.IO) {
             if (cityDao.getAll().isEmpty()) {
-                LoadCitiesTask(cityDao, activity).execute()
+                progressBar.visibility = VISIBLE
+                LoadCitiesTask(cityDao, activity, progressBar).execute()
             } else {
                 navigateToCitiesActivity()
             }
@@ -131,7 +136,8 @@ class SplashActivity : AppCompatActivity() {
 
     private class LoadCitiesTask constructor(
         val cityDao: CityDao,
-        val activity: Activity
+        val activity: Activity,
+        val progressBar: RelativeLayout
     ) :
         AsyncTask<List<City>, Void, Void?>() {
 

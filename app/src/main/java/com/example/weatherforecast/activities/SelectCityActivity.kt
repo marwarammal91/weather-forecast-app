@@ -98,11 +98,4 @@ class SelectCityActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, output)
         finish()
     }
-
-    class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
-        override fun doInBackground(vararg params: Void?): Void? {
-            handler()
-            return null
-        }
-    }
 }

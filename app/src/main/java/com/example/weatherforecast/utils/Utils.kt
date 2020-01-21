@@ -15,7 +15,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 object Utils {
 
@@ -36,7 +38,8 @@ object Utils {
     }
 
     fun isLocationEnabled(activity: Activity): Boolean {
-        val locationManager: LocationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager: LocationManager =
+            activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
         )
@@ -94,7 +97,14 @@ object Utils {
     }
 
     // region "alert dialogs"
-    fun showDialogActions(activity: Activity, msg: String, posAction: String, negAction: String, posRunnable: () -> Unit, negRunnable: (() -> Unit)?): AlertDialog? {
+    fun showDialogActions(
+        activity: Activity,
+        msg: String,
+        posAction: String,
+        negAction: String,
+        posRunnable: () -> Unit,
+        negRunnable: (() -> Unit)?
+    ): AlertDialog? {
         val diag = AlertDialog.Builder(activity)
         diag.setMessage(msg)
         diag.setCancelable(false)
