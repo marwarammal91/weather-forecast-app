@@ -3,8 +3,11 @@ package com.example.weatherforecast.networking
 import com.example.weatherforecast.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 
 open class RestAPI {
@@ -23,7 +26,7 @@ open class RestAPI {
 
         val client = builder.build()
 
-        val baseUrl = "http://openweathermap.org/"
+        val baseUrl = "https://api.openweathermap.org/data/2.5/"
 
         retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -31,4 +34,7 @@ open class RestAPI {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    val client: APIInterfaceEndpoints
+        get() = retrofit.create(APIInterfaceEndpoints::class.java)
 }
