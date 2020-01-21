@@ -18,7 +18,7 @@ From Android Studio:
 3. Fill in the keystore information *(you only need to do this once manually and then let Android Studio remember it)*
 
 
-## Generate jacoco report
+## Generate Jacoco report for code Coverage
 From Android Studio:
 1. Go to ***terminal*** 
 2. Run the command: `./gradlew createDebugCoverageReport`

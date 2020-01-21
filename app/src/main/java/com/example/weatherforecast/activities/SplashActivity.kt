@@ -8,7 +8,6 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.view.View.VISIBLE
-import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
