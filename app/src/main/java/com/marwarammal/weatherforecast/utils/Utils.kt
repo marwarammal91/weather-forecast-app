@@ -9,10 +9,10 @@ import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Handler
-import com.marwarammal.weatherforecast.models.City
-import com.marwarammal.weatherforecast.models.Coord
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.marwarammal.weatherforecast.models.City
+import com.marwarammal.weatherforecast.models.Coord
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
