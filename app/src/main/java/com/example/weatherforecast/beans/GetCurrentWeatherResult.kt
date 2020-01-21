@@ -4,7 +4,7 @@ import com.example.weatherforecast.models.Coord
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class GetCurrentWeatherResult: Serializable {
+class GetCurrentWeatherResult : Serializable {
 
     @SerializedName("coord")
     val coord: Coord? = null
@@ -28,4 +28,3 @@ class GetCurrentWeatherResult: Serializable {
     @SerializedName("cod")
     val cod: Int? = null
 }
-

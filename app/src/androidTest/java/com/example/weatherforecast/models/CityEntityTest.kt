@@ -4,14 +4,13 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.weatherforecast.application.AppDatabase
+import java.io.IOException
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
-
 
 @RunWith(AndroidJUnit4::class)
 class CityEntityTest {
@@ -36,7 +35,7 @@ class CityEntityTest {
     @Throws(Exception::class)
     fun writeUserAndReadInList() {
         // insert a city object
-        val coord = Coord(  35.494419, 33.888939)
+        val coord = Coord(35.494419, 33.888939)
         val city = City(276781, "Beirut", "Lebanon")
         city.coord = coord
         val cityList = ArrayList<City>()

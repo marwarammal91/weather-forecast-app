@@ -16,8 +16,9 @@ import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityDao
 import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
-import kotlinx.coroutines.*
-import okhttp3.internal.wait
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
 
@@ -54,17 +55,15 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-
     private fun checkCities() {
         GlobalScope.launch(Dispatchers.IO) {
-            if ( cityDao.getAll().isEmpty()) {
+            if (cityDao.getAll().isEmpty()) {
                 LoadCitiesTask(cityDao, activity).execute()
             } else {
                 navigateToCitiesActivity()
             }
         }
     }
-
 
     private fun navigateToCitiesActivity() {
         val intent = Intent(this, MainActivity::class.java)
@@ -111,8 +110,8 @@ class SplashActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(
+                ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED

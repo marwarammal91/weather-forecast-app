@@ -16,5 +16,4 @@ class Weather {
     @SerializedName("icon")
     @Expose
     var icon: String? = null
-
 }

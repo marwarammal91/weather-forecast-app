@@ -1,6 +1,9 @@
 package com.example.weatherforecast.models
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(tableName = "city")
@@ -10,7 +13,8 @@ data class City(
     @ColumnInfo(name = "country") var country: String = "",
     @ColumnInfo(name = "isFavorite") var isFavorite: Boolean = false,
     @ColumnInfo(name = "isCurrent") var isCurrent: Boolean = false,
-    @Embedded var coord: Coord? = null ): Serializable {
+    @Embedded var coord: Coord? = null
+) : Serializable {
 
     override fun toString(): String {
         return "City: $name\nCountry: $country"
@@ -20,4 +24,4 @@ data class City(
 data class Coord(
     var lon: Double = 0.0,
     var lat: Double = 0.0
-): Serializable
+) : Serializable

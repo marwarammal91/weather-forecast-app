@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.models.City
 
-
 class SelectCityAdapter(
     internal val activity: Activity,
     var cityListItems: ArrayList<City>,

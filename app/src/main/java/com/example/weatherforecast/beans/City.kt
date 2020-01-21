@@ -16,5 +16,4 @@ class City {
     @SerializedName("country")
     @Expose
     var country: String? = null
-
 }

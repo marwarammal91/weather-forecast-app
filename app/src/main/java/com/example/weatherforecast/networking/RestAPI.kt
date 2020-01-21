@@ -1,14 +1,11 @@
 package com.example.weatherforecast.networking
 
 import com.example.weatherforecast.BuildConfig
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-import java.lang.reflect.Type
-import java.util.concurrent.TimeUnit
 
 open class RestAPI {
     val retrofit: Retrofit

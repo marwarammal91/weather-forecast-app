@@ -4,17 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
-import com.example.weatherforecast.beans.City
 import com.example.weatherforecast.beans.WeatherList
 import com.example.weatherforecast.utils.Utils
-import com.google.gson.internal.bind.util.ISO8601Utils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.weather_row_item.view.*
 
@@ -41,7 +38,6 @@ class WeatherAdapter(internal var activity: Activity, internal var list: List<We
         Picasso.get()
             .load("https://api.openweathermap.org/img/w/" + weatherItem.weather?.get(0)?.icon + ".png")
             .into(holder.imageView)
-
     }
 
     override fun getItemCount(): Int {
@@ -56,6 +52,5 @@ class WeatherAdapter(internal var activity: Activity, internal var list: List<We
         var tempTxtView: TextView = itemView.tempTxtView
         var dexrTxtView: TextView = itemView.dexrTxtView
         var minTempTxtView: TextView = itemView.minTempTxtView
-
     }
 }

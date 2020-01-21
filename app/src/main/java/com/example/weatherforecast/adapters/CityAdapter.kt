@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.activities.CitiesWeatherActivity
-import com.example.weatherforecast.application.App
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.utils.Utils
 import kotlinx.android.synthetic.main.city_row_item.view.*
@@ -46,7 +45,7 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
             cityText.text = field.name
             countryText.text = field.country
 
-            holderLayout.setOnClickListener{
+            holderLayout.setOnClickListener {
 
                 if (favoriteCityList.size >= 3) {
                     val intent = Intent(activity, CitiesWeatherActivity::class.java)
@@ -57,7 +56,7 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
                     intent.putExtra("longitude", field.coord?.lon)
                     activity.startActivityForResult(intent, 5555)
                 } else {
-                    Utils.showAlertDialog(activity, activity.getString(R.string.cities_count_alert), "Ok" , false)
+                    Utils.showAlertDialog(activity, activity.getString(R.string.cities_count_alert), "Ok", false)
                 }
             }
         }

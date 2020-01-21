@@ -10,5 +10,4 @@ class Coord {
     @SerializedName("lon")
     @Expose
     var lon: Double? = null
-
 }

@@ -1,6 +1,5 @@
 package com.example.weatherforecast.beans
 
-import com.example.weatherforecast.beans.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -29,5 +28,4 @@ class WeatherList {
     @SerializedName("dt_txt")
     @Expose
     var dtTxt: String? = null
-
 }

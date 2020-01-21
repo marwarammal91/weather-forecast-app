@@ -39,7 +39,7 @@ class WeatherService(internal val activity: Activity) {
         })
     }
 
-    fun getForecastWeather(lat: Double, lon: Double,  handler: IWeatherHandler) {
+    fun getForecastWeather(lat: Double, lon: Double, handler: IWeatherHandler) {
         getForecastWeatherCall = RestAPI().client.getForecastWeather(lat, lon, "518e0b6ac74798e6a599377aafa69590")
         getForecastWeatherCall!!.enqueue(object : Callback<GetForecastWeatherResult> {
             override fun onResponse(call: Call<GetForecastWeatherResult>, response: Response<GetForecastWeatherResult>) {
@@ -67,11 +67,9 @@ class WeatherService(internal val activity: Activity) {
         getCurrentWeatherCall?.cancel()
     }
 
-
     interface IWeatherHandler {
         fun onAPISuccess(response: Any)
 
         fun onAPIFailure(code: Int, message: String)
     }
-
 }

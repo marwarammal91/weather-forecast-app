@@ -18,8 +18,6 @@ import kotlinx.android.synthetic.main.layout_header.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
-
 
 class SelectCityActivity : AppCompatActivity() {
 

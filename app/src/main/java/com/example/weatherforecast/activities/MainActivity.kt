@@ -4,13 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.location.Location
-import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
 import com.example.weatherforecast.adapters.CityAdapter
@@ -21,9 +20,15 @@ import com.example.weatherforecast.models.CityDao
 import com.example.weatherforecast.models.Coord
 import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -86,8 +91,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private val onClickListeners =  View.OnClickListener { view ->
+    private val onClickListeners = View.OnClickListener { view ->
         when (view.id) {
             R.id.addCityBtn -> {
                 val intent = Intent(this, SelectCityActivity::class.java)
@@ -106,8 +110,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkLocation (showDialog: Boolean) {
-        if(Utils.isLocationEnabled(this)) {
+    private fun checkLocation(showDialog: Boolean) {
+        if (Utils.isLocationEnabled(this)) {
             // get current location
             mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
                 val location: Location? = task.result
@@ -125,10 +129,9 @@ class MainActivity : AppCompatActivity() {
                 ACTIVITY_RESULT_ENABLE_LOCATION_SETTINGS
             )
         }
-
     }
 
-    private fun displayCurrentCity () {
+    private fun displayCurrentCity() {
         if (currentCity != null) {
             currentlocLayout.visibility = VISIBLE
             currentCityText.text = currentCity!!.name

@@ -9,8 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.weatherforecast.R
 import kotlinx.android.synthetic.main.fragment_info_dialog.*
 
-class InfoDialog: DialogFragment() {
-
+class InfoDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +23,7 @@ class InfoDialog: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        doneBtb.setOnClickListener{
+        doneBtb.setOnClickListener {
             fragmentManager!!.popBackStack()
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             dismissAllowingStateLoss()

@@ -2,7 +2,7 @@ package com.example.weatherforecast.application
 
 import android.app.Application
 
-class App: Application() {
+class App : Application() {
 
     companion object {
         lateinit var appDatabase: AppDatabase
@@ -12,6 +12,5 @@ class App: Application() {
         super.onCreate()
 
         appDatabase = AppDatabase(this)
-
     }
 }

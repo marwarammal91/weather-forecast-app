@@ -28,5 +28,4 @@ class Main {
     @SerializedName("temp_kf")
     @Expose
     var tempKf: Double? = null
-
 }

@@ -17,14 +17,13 @@ import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 object Utils {
 
     fun readJSONFromAsset(context: Context): String? {
-        var json: String? = null
+        val json: String
         try {
-            val  inputStream: InputStream = context.assets.open("city.list.json")
-            json = inputStream.bufferedReader().use{it.readText()}
+            val inputStream: InputStream = context.assets.open("city.list.json")
+            json = inputStream.bufferedReader().use { it.readText() }
         } catch (ex: Exception) {
             ex.printStackTrace()
             return null

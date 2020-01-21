@@ -3,13 +3,12 @@ package com.example.weatherforecast.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
-import com.example.weatherforecast.adapters.CityAdapter
 import com.example.weatherforecast.adapters.WeatherAdapter
 import com.example.weatherforecast.application.App
 import com.example.weatherforecast.beans.GetCurrentWeatherResult
@@ -42,7 +41,7 @@ class CitiesWeatherActivity : AppCompatActivity() {
 
         detailsView.visibility = GONE
 
-        backBtn.setOnClickListener{
+        backBtn.setOnClickListener {
             onBackPressed()
         }
 
@@ -131,7 +130,6 @@ class CitiesWeatherActivity : AppCompatActivity() {
                         progressBar.visibility = GONE
                         Utils.showAlertDialog(activity, message, "Ok", true)
                     }
-
                 })
         } else {
             Utils.showDialogActions(activity, getString(R.string.no_internet), getString(R.string.retry), getString(R.string.cancel), {
