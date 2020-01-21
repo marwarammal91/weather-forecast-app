@@ -1,29 +1,23 @@
 package com.example.weatherforecast.models
 
 import androidx.room.*
+import java.io.Serializable
 
 @Entity(tableName = "city")
-data class City(val cityId: Int, val cityName: String, val cityCountry: String) {
-
-    @PrimaryKey var id: Int = 0
-    @ColumnInfo(name = "name") var name: String = ""
-    @ColumnInfo(name = "country") var country: String = ""
-    @ColumnInfo(name = "isFavorite") var isFavorite: Boolean = false
-    @Embedded var coord: Coord? = null
-
-    init {
-        this.id = cityId
-        this.name = cityName
-        this.country = cityCountry
-    }
+data class City(
+    @PrimaryKey var id: Int = 0,
+    @ColumnInfo(name = "name") var name: String = "",
+    @ColumnInfo(name = "country") var country: String = "",
+    @ColumnInfo(name = "isFavorite") var isFavorite: Boolean = false,
+    @ColumnInfo(name = "isCurrent") var isCurrent: Boolean = false,
+    @Embedded var coord: Coord? = null ): Serializable {
 
     override fun toString(): String {
         return "City: $name\nCountry: $country"
     }
 }
 
-@Entity(tableName = "coord")
 data class Coord(
-    @ColumnInfo(name = "lon") val lon: Double,
-    @ColumnInfo(name = "lat") val lat: Double
-)
+    var lon: Double = 0.0,
+    var lat: Double = 0.0
+): Serializable

@@ -1,8 +1,6 @@
 package com.example.weatherforecast.models
 
 import android.content.Context
-import android.os.AsyncTask
-import com.example.weatherforecast.application.App
 import com.example.weatherforecast.application.AppDatabase
 
 class CityReporsitory(context: Context) {
@@ -26,19 +24,40 @@ class CityReporsitory(context: Context) {
     }
 
     fun insertAllCities(cities: List<City>) {
-        insertAsyncTask(db).execute(cities).get()
+        db.insertAll(cities)
     }
 
     fun updateCity(isFavorite: Boolean, cityId: Int) {
         db.updateCity(isFavorite, cityId)
     }
 
-    private class insertAsyncTask internal constructor(private val cityDao: CityDao) :
-        AsyncTask<List<City>, Void, Void?>() {
-
-        override fun doInBackground(vararg params: List<City>): Void? {
-            cityDao.insertAll(params[0])
-            return null
-        }
+    fun updateCurrentCity(isCurrent: Boolean, cityId: Int) {
+        db.updateCurrentCity(isCurrent, cityId)
     }
+
+    fun getCityByCoord(coord: Coord) : City{
+        return db.fetchCurrentCity(coord.lat, coord.lon)
+    }
+
+    fun getCurrentCity(): City {
+       return db.getCurrentCity()
+    }
+
+
+//    private class insertAsyncTask internal constructor(private val cityDao: CityDao) :
+//        AsyncTask<List<City>, Void, Boolean>() {
+//
+//        override fun doInBackground(vararg params: List<City>): Boolean {
+//            cityDao.insertAll(params[0])
+//            if (cityDao.getAll().isEmpty()) {
+//                return false
+//            }
+//            return true
+//        }
+//
+//        override fun onPostExecute(result: Boolean) {
+//            super.onPostExecute(result)
+//            return result
+//        }
+//    }
 }

@@ -3,9 +3,17 @@ package com.example.weatherforecast.utils
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.location.Geocoder
 import android.location.LocationManager
+import java.text.SimpleDateFormat
 import android.os.Handler
+import com.example.weatherforecast.models.City
+import com.example.weatherforecast.models.Coord
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.InputStream
+import java.util.*
+
 
 object Utils {
 
@@ -21,11 +29,36 @@ object Utils {
         return json
     }
 
+    inline fun <reified T> fromJson(json: String): T {
+        return Gson().fromJson(json, object : TypeToken<T>() {}.type)
+    }
+
     fun isLocationEnabled(activity: Activity): Boolean {
         val locationManager: LocationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
         )
+    }
+
+    fun getCurrentLocationAddress(activity: Activity, coord: Coord): City {
+        val geocoder = Geocoder(activity, Locale.getDefault())
+        return try {
+            val addresses = geocoder.getFromLocation(coord.lat, coord.lon, 1)
+            val city = addresses[0].locality
+            val country = addresses[0].countryName
+            City(1, city, country)
+        } catch (ex: java.lang.Exception) {
+            City()
+        }
+    }
+
+    fun convertDate(dateInMilliseconds: String, dateFormat: String?): String {
+        val date = Date(dateInMilliseconds)
+        val formatter = SimpleDateFormat(
+            dateFormat,
+            Locale.US
+        )
+        return formatter.format(date)
     }
 
     // region "alert dialogs"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.location.Location
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
@@ -22,61 +23,66 @@ import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
     var infoDialogFragment: InfoDialog? = null
     private lateinit var cityRepository: CityReporsitory
     lateinit var cityAdapter: CityAdapter
+    lateinit var activity: Activity
+
     lateinit var favoriteItems: List<City>
+    var currentCity: City? = null
     val SELECT_CITY_CODE = 100
+    val ACTIVITY_RESULT_ENABLE_LOCATION_SETTINGS = 333
     lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        activity = this
         cityRepository = CityReporsitory(this)
-        cityAdapter = CityAdapter(this, arrayListOf())
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         // set click listeners
         addCityBtn.setOnClickListener(onClickListeners)
         infoBtn.setOnClickListener(onClickListeners)
-        nextBtn.setOnClickListener(onClickListeners)
 
-        favoriteItems = cityRepository.getAllFavoriteCities()
+        val llManager = LinearLayoutManager(this)
+        favoriteCitiesRecycleView.layoutManager = llManager
+
+        cityAdapter = CityAdapter(this, arrayListOf())
+        favoriteCitiesRecycleView.adapter = cityAdapter
+
+        doAsync {
+            favoriteItems = cityRepository.getAllFavoriteCities()
+        }.execute().get()
 
         if (favoriteItems.isEmpty()) {
             showInfoDialog()
         } else {
-            citiesCardView.visibility = VISIBLE
-            val llManager = LinearLayoutManager(this)
-            favoriteCitiesRecycleView.layoutManager = llManager
+            favoriteCitiesRecycleView.visibility = VISIBLE
 
             cityAdapter = CityAdapter(activity = this, favoriteCityList = ArrayList(favoriteItems))
             favoriteCitiesRecycleView.adapter = cityAdapter
         }
 
         // get current location
-        if(Utils.isLocationEnabled(this)) {
-            // get current location
-            mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                val location: Location? = task.result
-                if (location == null) {
-                    requestNewLocationData()
-                } else {
-                    val coord = Coord(location.longitude, location.latitude)
-                }
-            }
-        } else {
-            Utils.showAlertDialog(
-                this,
-                getString(R.string.turn_location),
-                "Ok",
-                false
-            )
+        currentCity = cityRepository.getCurrentCity()
+        displayCurrentCity()
+
+        checkLocation(true)
+
+        currentlocLayout.setOnClickListener {
+            val intent = Intent(activity, CitiesWeatherActivity::class.java)
+            intent.putExtra("selectedCity", 0)
+            intent.putExtra("isCurrent", true)
+            intent.putExtra("latitude", currentCity!!.coord?.lat)
+            intent.putExtra("longitude", currentCity!!.coord?.lon)
+            activity.startActivity(intent)
         }
     }
 
@@ -89,13 +95,6 @@ class MainActivity : AppCompatActivity() {
             R.id.infoBtn -> {
                 showInfoDialog()
             }
-            R.id.nextBtn -> {
-                if (favoriteItems.size < 3) {
-                    showInfoDialog()
-                } else {
-                    // go to weather display page
-                }
-            }
         }
     }
 
@@ -106,18 +105,60 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkLocation (showDialog: Boolean) {
+        if(Utils.isLocationEnabled(this)) {
+            // get current location
+            mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                val location: Location? = task.result
+                if (location == null) {
+                    requestNewLocationData()
+                } else {
+                    val coord = Coord(location.longitude, location.latitude)
+                    currentCity = cityRepository.getCityByCoord(coord)
+                    if (currentCity != null) {
+                        cityRepository.updateCurrentCity(true, currentCity!!.id)
+                    } else {
+                        doAsync {
+                            currentCity = Utils.getCurrentLocationAddress(activity, coord = coord)
+                        }.get()
+                    }
+                    currentCity!!.coord = coord
+                    displayCurrentCity()
+                }
+            }
+        } else if (showDialog) {
+            PermissionUtils.openLocationSettingsDialog(
+                this,
+                getString(R.string.turn_location),
+                ACTIVITY_RESULT_ENABLE_LOCATION_SETTINGS
+            )
+        }
+
+    }
+
+    fun displayCurrentCity () {
+        if (currentCity != null) {
+            currentlocLayout.visibility = VISIBLE
+            currentCityText.text = currentCity!!.name
+        } else {
+            currentlocLayout.visibility = GONE
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        if (requestCode == ACTIVITY_RESULT_ENABLE_LOCATION_SETTINGS) {
+            checkLocation(false)
+        }
         // handle selected cities
         if (resultCode == Activity.RESULT_OK) {
             favoriteItems = cityRepository.getAllFavoriteCities()
 
             if (favoriteItems.isEmpty()) {
-                citiesCardView.visibility = GONE
+                favoriteCitiesRecycleView.visibility = GONE
                 showInfoDialog()
             } else {
-                citiesCardView.visibility = VISIBLE
+                favoriteCitiesRecycleView.visibility = VISIBLE
                 val size = cityAdapter.favoriteCityList.size
                 cityAdapter.favoriteCityList.clear()
                 cityAdapter.notifyItemRangeRemoved(0, size)
@@ -145,9 +186,15 @@ class MainActivity : AppCompatActivity() {
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            var mLastLocation: Location = locationResult.lastLocation
+            val mLastLocation: Location = locationResult.lastLocation
             val coord = Coord(mLastLocation.longitude, mLastLocation.latitude)
-
+            currentCity = cityRepository.getCityByCoord(coord)
+            if (currentCity != null) {
+                cityRepository.updateCurrentCity(true, currentCity!!.id)
+            } else {
+                currentCity = Utils.getCurrentLocationAddress(activity = activity, coord = coord)
+            }
+            displayCurrentCity()
         }
     }
 
@@ -155,5 +202,12 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         infoDialogFragment?.dismissAllowingStateLoss()
+    }
+
+    class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg params: Void?): Void? {
+            handler()
+            return null
+        }
     }
 }

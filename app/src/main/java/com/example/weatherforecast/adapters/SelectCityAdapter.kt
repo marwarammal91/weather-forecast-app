@@ -1,18 +1,21 @@
 package com.example.weatherforecast.adapters
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.models.City
 
 
 class SelectCityAdapter(
+    internal val activity: Activity,
     var cityListItems: ArrayList<City>,
     var selectedItems: ArrayList<City>
-): RecyclerView.Adapter<SelectCityAdapter.CityMultiSelectHolder>() {
+) : RecyclerView.Adapter<SelectCityAdapter.CityMultiSelectHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityMultiSelectHolder {
         val view = LayoutInflater.from(parent.context)
@@ -43,12 +46,34 @@ class SelectCityAdapter(
 
         fun bind(field: City) {
             checkBox.text = field.toString()
+            checkBox.isChecked = false
             if (selectedItems.any { it.name == field.name }) {
                 checkBox.isChecked = true
                 field.isFavorite = true
             }
             checkBox!!.setOnClickListener {
-                field.isFavorite = checkBox.isChecked
+                if (selectedItems.size >= 7 && checkBox.isChecked) {
+                    checkBox.isChecked = false
+                    Toast.makeText(
+                        activity,
+                        "You've reached the maximum allowed cities",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    field.isFavorite = checkBox.isChecked
+
+                    if (selectedItems.any { it.name == field.name }) {
+                        if (!checkBox.isChecked) {
+                            selectedItems.remove(field)
+                        }
+                    } else {
+                        if (!checkBox.isChecked) {
+                            selectedItems.remove(field)
+                        } else {
+                            selectedItems.add(field)
+                        }
+                    }
+                }
             }
         }
     }

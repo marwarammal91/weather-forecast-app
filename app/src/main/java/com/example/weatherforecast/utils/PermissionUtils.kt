@@ -27,4 +27,12 @@ object PermissionUtils {
                 activity.startActivityForResult(intent, requestCode)
             }, null)
     }
+
+    fun openLocationSettingsDialog(activity: Activity, message: String, requestCode: Int) {
+        Utils.showDialogActions(activity, message,
+            "Turn on location", "Cancel", {
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                activity.startActivityForResult(intent, requestCode)
+            }, null)
+    }
 }

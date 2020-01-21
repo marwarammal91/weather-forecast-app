@@ -2,6 +2,7 @@ package com.example.weatherforecast.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View.VISIBLE
 import android.widget.SearchView
@@ -19,6 +20,8 @@ class SelectCityActivity : AppCompatActivity() {
 
     private lateinit var selectCityAdapter: SelectCityAdapter
     private lateinit var cityRepository: CityReporsitory
+    private lateinit var selectedFavoriteCities: List<City>
+    private lateinit var citiesList: List<City>
 
     var searchQuery = ""
 
@@ -42,26 +45,28 @@ class SelectCityActivity : AppCompatActivity() {
         rvMultiSelect.layoutManager = llManager
 
         // get selected cities
-        val selectedItems = cityRepository.getAllFavoriteCities()
-        val cityLists = cityRepository.getAllCities()
-        selectCityAdapter = SelectCityAdapter(ArrayList(cityLists), ArrayList(selectedItems))
+        doAsync {
+            selectedFavoriteCities = cityRepository.getAllFavoriteCities()
+        }.execute().get()
+
+        doAsync {
+            citiesList = cityRepository.getAllCities()
+        }.execute().get()
+
+        selectCityAdapter = SelectCityAdapter(this, ArrayList(citiesList), ArrayList(selectedFavoriteCities))
         rvMultiSelect.adapter = selectCityAdapter
 
         // search view
         citySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.isNotEmpty() && query != searchQuery) {
-                    searchQuery = query
+                    searchQuery = "%$query%"
                     generateList(query)
-                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isNotEmpty() && newText != searchQuery) {
-                    searchQuery = newText
+                    searchQuery = "%$newText%"
                     generateList(newText)
-                }
                 return false
             }
         })
@@ -70,7 +75,7 @@ class SelectCityActivity : AppCompatActivity() {
     private fun generateList(search: String) {
         var filteredDataList = cityRepository.findSearchedCity(search)
         if (search.isEmpty()) {
-            filteredDataList = cityRepository.getAllCities()
+            filteredDataList = citiesList
         }
 
         val size = selectCityAdapter.cityListItems.size
@@ -82,16 +87,21 @@ class SelectCityActivity : AppCompatActivity() {
     }
 
     private fun save() {
-        val arrayOfSelectedItems = ArrayList<City>()
         for (i in 0 until selectCityAdapter.itemCount) {
             if (selectCityAdapter.getItem(i).isFavorite) {
                 val updateCity = selectCityAdapter.getItem(i)
-                cityRepository.updateCity(updateCity.isFavorite, updateCity.cityId)
-                arrayOfSelectedItems.add(selectCityAdapter.getItem(i))
+                cityRepository.updateCity(updateCity.isFavorite, updateCity.id)
             }
         }
         val output = Intent()
         setResult(Activity.RESULT_OK, output)
         finish()
+    }
+
+    class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg params: Void?): Void? {
+            handler()
+            return null
+        }
     }
 }
