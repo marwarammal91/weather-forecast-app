@@ -49,6 +49,7 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
             holderLayout.setOnClickListener{
                 val intent = Intent(activity, CitiesWeatherActivity::class.java)
                 intent.putExtra("selectedCity", field.id)
+                intent.putExtra("selectedName", field.name)
                 intent.putExtra("isCurrent", false)
                 intent.putExtra("latitude", field.coord?.lat)
                 intent.putExtra("longitude", field.coord?.lon)

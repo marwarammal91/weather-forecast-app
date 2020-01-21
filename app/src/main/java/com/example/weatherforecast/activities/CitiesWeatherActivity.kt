@@ -26,6 +26,7 @@ class CitiesWeatherActivity : AppCompatActivity() {
 
     var weatherService: WeatherService? = null
     lateinit var activity: Activity
+    var currentCityName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,7 @@ class CitiesWeatherActivity : AppCompatActivity() {
         weatherService = WeatherService(this)
 
         val selectedCityID = intent.getIntExtra("selectedCity", 0)
+        currentCityName = intent.getStringExtra("selectedName")!!
         val isCurrentCity = intent.getBooleanExtra("isCurrent", false)
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
@@ -53,7 +55,7 @@ class CitiesWeatherActivity : AppCompatActivity() {
 
         deleteBtn.setOnClickListener {
 
-            Utils.showDialogActions(activity, "Are you sure you want to remove this city", "ok", "cancel", {
+            Utils.showDialogActions(activity, getString(R.string.remove_alert), "Ok", getString(R.string.cancel), {
                 App.appDatabase.cityDao().updateCity(isFavorite = false, cityId = selectedCityID)
                 val intent = Intent()
                 setResult(Activity.RESULT_OK, intent)
@@ -64,12 +66,12 @@ class CitiesWeatherActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun updateView(weatherResult: GetCurrentWeatherResult) {
-        timeTxtView.text = weatherResult.dt.toString()
+        timeTxtView.text = Utils.convertDate(weatherResult.dt!!.toLong(), "hh:mm a")
         cityTxtView.text = weatherResult.name
         tempTxtView.text = weatherResult.main?.temp.toString() + "°"
         dexrTxtView.text = weatherResult.weather?.get(0)?.description
-        minTempTxtView.text = weatherResult.main?.tempMin.toString() + "°" + weatherResult.main?.tempMax.toString() + "°"
-        windTxtView.text = weatherResult.wind?.speed.toString()
+        minTempTxtView.text = weatherResult.main?.tempMin.toString() + "°  /  " + weatherResult.main?.tempMax.toString() + "°"
+        windTxtView.text = weatherResult.wind?.speed.toString() + " km/h"
 
         Picasso.get()
             .load("https://api.openweathermap.org/img/w/" + weatherResult.weather?.get(0)?.icon + ".png")
@@ -143,11 +145,11 @@ class CitiesWeatherActivity : AppCompatActivity() {
     fun displayForecastWeather(getForecastWeatherResult: GetForecastWeatherResult) {
 
         weatherRecycleView.visibility = VISIBLE
-
+        weatherRecycleView.hasFixedSize()
         val llManager = LinearLayoutManager(this)
         weatherRecycleView.layoutManager = llManager
 
-        val weatherAdapter = WeatherAdapter(this, getForecastWeatherResult.list!!)
+        val weatherAdapter = WeatherAdapter(this, getForecastWeatherResult.list!!, currentCityName)
         weatherRecycleView.adapter = weatherAdapter
     }
 

@@ -1,5 +1,6 @@
 package com.example.weatherforecast.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -7,14 +8,13 @@ import android.location.Geocoder
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import java.text.SimpleDateFormat
 import android.os.Handler
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.Coord
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStream
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -55,13 +55,30 @@ object Utils {
         }
     }
 
-    fun convertDate(dateInMilliseconds: String, dateFormat: String?): String {
-        val date = Date(dateInMilliseconds)
-        val formatter = SimpleDateFormat(
-            dateFormat,
-            Locale.US
-        )
-        return formatter.format(date)
+    @SuppressLint("SimpleDateFormat")
+    fun convertDate(dateInSeconds: Long, dateFormat: String): String {
+        return try {
+            val formatter = SimpleDateFormat(dateFormat)
+            val cal = Calendar.getInstance()
+            cal.timeInMillis = dateInSeconds * 1000 // get date to millis
+            formatter.format(cal.time)
+        } catch (ex: Exception) {
+            print(ex.message)
+            return dateInSeconds.toString()
+        }
+    }
+
+    fun formatDateString(date: String, inputFormat: String, desiredFormat: String): String {
+        try {
+            val oneWayTripDate: Date?
+            val input = SimpleDateFormat(inputFormat, Locale.US)
+            val output = SimpleDateFormat(desiredFormat, Locale.US)
+            oneWayTripDate = input.parse(date)
+            return output.format(oneWayTripDate!!)
+        } catch (e: Exception) {
+            print(e.message)
+        }
+        return date
     }
 
     fun checkNetwork(activity: Activity): Boolean {

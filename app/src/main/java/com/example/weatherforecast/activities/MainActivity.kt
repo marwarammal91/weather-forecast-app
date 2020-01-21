@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("isCurrent", true)
             intent.putExtra("latitude", currentCity!!.coord?.lat)
             intent.putExtra("longitude", currentCity!!.coord?.lon)
+            intent.putExtra("selectedName", currentCity!!.name)
             activity.startActivity(intent)
         }
     }

@@ -8,6 +8,8 @@
     <color name="colorOrange">#E3B127</color>
 
     <color name="black30p">#4b000000</color>
+    <color name="light_darkgray">#4A4A4A</color>
+    <color name="dark_grey">#454545</color>
 
 
 </resources>

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:minHeight="70dp"
     android:id="@+id/multiSelectLayout"
-    android:background="@color/colorWhite"
+    android:background="@android:color/white"
     android:gravity="center_vertical"
     android:orientation="vertical">
 

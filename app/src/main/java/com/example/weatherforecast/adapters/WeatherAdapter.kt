@@ -11,11 +11,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
+import com.example.weatherforecast.beans.City
 import com.example.weatherforecast.beans.WeatherList
+import com.example.weatherforecast.utils.Utils
+import com.google.gson.internal.bind.util.ISO8601Utils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.weather_row_item.view.*
 
-class WeatherAdapter(internal var activity: Activity, internal var list: List<WeatherList>) :
+class WeatherAdapter(internal var activity: Activity, internal var list: List<WeatherList>, internal var cityName: String) :
     RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,12 +30,12 @@ class WeatherAdapter(internal var activity: Activity, internal var list: List<We
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val weatherItem = list[position]
 
-        holder.timeTxtView.text = weatherItem.dtTxt.toString()
-        holder.cityTxtView.visibility = GONE
+        holder.timeTxtView.text = Utils.formatDateString(weatherItem.dtTxt!!, "yyyy-MM-dd HH:mm:ss", "EEE dd, MMM 'at' hh:mm a")
+        holder.cityTxtView.text = cityName
         holder.tempTxtView.text = weatherItem.main?.temp.toString() + "°"
         holder.dexrTxtView.text = weatherItem.weather?.get(0)?.description
-        holder.minTempTxtView.text = weatherItem.main?.tempMin.toString() + "°" + weatherItem.main?.tempMax.toString() + "°"
-        holder.windTxtView.text = weatherItem.wind?.speed.toString()
+        holder.minTempTxtView.text = weatherItem.main?.tempMin.toString() + "° /  " + weatherItem.main?.tempMax.toString() + "°"
+        holder.windTxtView.text = weatherItem.wind?.speed.toString() + "km/h"
 
         holder.imageView.visibility = VISIBLE
         Picasso.get()
