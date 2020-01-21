@@ -19,5 +19,9 @@
     <string name="settings_location_message">App requires permission to access your location to get your current weather info. Grant them in app settings.</string>
     <string name="denying_location_message">App requires permission to access your location to get your current weather info.</string>
 
-    <string name="turn_location">Turn on location</string>
+    <string name="turn_location">Please turn on Location Service to get your current location weather</string>
+    <string name="something_wrong">Error loading weather info. Please try again.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
