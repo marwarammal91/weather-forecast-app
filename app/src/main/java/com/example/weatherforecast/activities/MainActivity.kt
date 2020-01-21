@@ -23,6 +23,7 @@ import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cityDao: CityDao
     lateinit var cityAdapter: CityAdapter
     lateinit var activity: Activity
-
     lateinit var favoriteItems: List<City>
     var currentCity: City? = null
     val SELECT_CITY_CODE = 100
@@ -56,17 +56,17 @@ class MainActivity : AppCompatActivity() {
         cityAdapter = CityAdapter(this, arrayListOf())
         favoriteCitiesRecycleView.adapter = cityAdapter
 
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main) {
             favoriteItems = cityDao.getAllFavoriteCities()
-        }.execute().get()
 
-        if (favoriteItems.isEmpty()) {
-            showInfoDialog()
-        } else {
-            favoriteCitiesRecycleView.visibility = VISIBLE
+            if (favoriteItems.isEmpty()) {
+                showInfoDialog()
+            } else {
+                favoriteCitiesRecycleView.visibility = VISIBLE
 
-            cityAdapter = CityAdapter(activity = this, favoriteCityList = ArrayList(favoriteItems))
-            favoriteCitiesRecycleView.adapter = cityAdapter
+                cityAdapter = CityAdapter(activity = activity, favoriteCityList = ArrayList(favoriteItems))
+                favoriteCitiesRecycleView.adapter = cityAdapter
+            }
         }
 
         // get current location

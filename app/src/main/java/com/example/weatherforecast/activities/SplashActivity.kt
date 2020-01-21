@@ -16,10 +16,13 @@ import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityDao
 import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
+import kotlinx.coroutines.*
+import okhttp3.internal.wait
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var cityDao: CityDao
+    private lateinit var activity: Activity
     val PERMISSION_ID = 200
     val ACTIVITY_RESULT_LOCATION_PERMISSION_SETTINGS = 300
 
@@ -27,6 +30,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         cityDao = App.appDatabase.cityDao()
+        activity = this
 
         val isPermissionGranted =
             PermissionUtils.isPermissionGranted(this, Manifest.permission.ACCESS_COARSE_LOCATION) &&
@@ -50,13 +54,17 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+
     private fun checkCities() {
-        if (cityDao.getAll().isEmpty()) {
-            LoadCitiesTask(cityDao, this).execute()
-        } else {
-            navigateToCitiesActivity()
+        GlobalScope.launch(Dispatchers.IO) {
+            if ( cityDao.getAll().isEmpty()) {
+                LoadCitiesTask(cityDao, activity).execute()
+            } else {
+                navigateToCitiesActivity()
+            }
         }
     }
+
 
     private fun navigateToCitiesActivity() {
         val intent = Intent(this, MainActivity::class.java)

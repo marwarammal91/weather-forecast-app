@@ -15,12 +15,17 @@ import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityDao
 import kotlinx.android.synthetic.main.activity_select_city.*
 import kotlinx.android.synthetic.main.layout_header.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 
 class SelectCityActivity : AppCompatActivity() {
 
     private lateinit var selectCityAdapter: SelectCityAdapter
     private lateinit var cityDao: CityDao
+    private lateinit var activity: Activity
     private lateinit var selectedFavoriteCities: List<City>
     private lateinit var citiesList: List<City>
 
@@ -30,6 +35,7 @@ class SelectCityActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_city)
 
+        activity = this
         cityDao = App.appDatabase.cityDao()
 
         // header view
@@ -46,16 +52,12 @@ class SelectCityActivity : AppCompatActivity() {
         rvMultiSelect.layoutManager = llManager
 
         // get selected cities
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main) {
             selectedFavoriteCities = cityDao.getAllFavoriteCities()
-        }.execute().get()
-
-        doAsync {
             citiesList = cityDao.getAll()
-        }.execute().get()
-
-        selectCityAdapter = SelectCityAdapter(this, ArrayList(citiesList), ArrayList(selectedFavoriteCities))
-        rvMultiSelect.adapter = selectCityAdapter
+            selectCityAdapter = SelectCityAdapter(activity, ArrayList(citiesList), ArrayList(selectedFavoriteCities))
+            rvMultiSelect.adapter = selectCityAdapter
+        }
 
         // search view
         citySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
