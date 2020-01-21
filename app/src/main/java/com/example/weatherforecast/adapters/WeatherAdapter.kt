@@ -1,5 +1,6 @@
 package com.example.weatherforecast.adapters
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,11 +23,12 @@ class WeatherAdapter(internal var activity: Activity, internal var list: List<We
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val weatherItem = list[position]
 
         holder.timeTxtView.text = weatherItem.dtTxt.toString()
-        holder.cityTxtView.visibility = VISIBLE
+        holder.cityTxtView.visibility = GONE
         holder.tempTxtView.text = weatherItem.main?.temp.toString() + "°"
         holder.dexrTxtView.text = weatherItem.weather?.get(0)?.description
         holder.minTempTxtView.text = weatherItem.main?.tempMin.toString() + "°" + weatherItem.main?.tempMax.toString() + "°"
@@ -45,7 +47,7 @@ class WeatherAdapter(internal var activity: Activity, internal var list: List<We
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var timeTxtView: TextView = itemView.timeTxtView
-        var imageView: ImageView = itemView.imageView
+        var imageView: ImageView = itemView.weatherImageView
         var windTxtView: TextView = itemView.windTxtView
         var cityTxtView: TextView = itemView.cityTxtView
         var tempTxtView: TextView = itemView.tempTxtView

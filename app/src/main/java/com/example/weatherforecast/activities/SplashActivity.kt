@@ -11,21 +11,22 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.weatherforecast.R
+import com.example.weatherforecast.application.App
 import com.example.weatherforecast.models.City
-import com.example.weatherforecast.models.CityReporsitory
+import com.example.weatherforecast.models.CityDao
 import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
 
 class SplashActivity : AppCompatActivity() {
 
-    private lateinit var cityRepository: CityReporsitory
+    private lateinit var cityDao: CityDao
     val PERMISSION_ID = 200
     val ACTIVITY_RESULT_LOCATION_PERMISSION_SETTINGS = 300
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        cityRepository = CityReporsitory(this)
+        cityDao = App.appDatabase.cityDao()
 
         val isPermissionGranted =
             PermissionUtils.isPermissionGranted(this, Manifest.permission.ACCESS_COARSE_LOCATION) &&
@@ -50,8 +51,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkCities() {
-        if (cityRepository.getAllCities().isEmpty()) {
-            LoadCitiesTask(cityRepository, this).execute()
+        if (cityDao.getAll().isEmpty()) {
+            LoadCitiesTask(cityDao, this).execute()
         } else {
             navigateToCitiesActivity()
         }
@@ -122,7 +123,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private class LoadCitiesTask constructor(
-        val cityRepository: CityReporsitory,
+        val cityDao: CityDao,
         val activity: Activity
     ) :
         AsyncTask<List<City>, Void, Void?>() {
@@ -137,7 +138,7 @@ class SplashActivity : AppCompatActivity() {
                 cityList = Utils.fromJson(json)
 
                 // Insert City Data
-                cityRepository.insertAllCities(cityList)
+                cityDao.insertAll(cityList)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

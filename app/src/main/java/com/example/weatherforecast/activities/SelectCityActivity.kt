@@ -10,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
 import com.example.weatherforecast.adapters.SelectCityAdapter
+import com.example.weatherforecast.application.App
 import com.example.weatherforecast.models.City
-import com.example.weatherforecast.models.CityReporsitory
+import com.example.weatherforecast.models.CityDao
 import kotlinx.android.synthetic.main.activity_select_city.*
 import kotlinx.android.synthetic.main.layout_header.*
 
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.layout_header.*
 class SelectCityActivity : AppCompatActivity() {
 
     private lateinit var selectCityAdapter: SelectCityAdapter
-    private lateinit var cityRepository: CityReporsitory
+    private lateinit var cityDao: CityDao
     private lateinit var selectedFavoriteCities: List<City>
     private lateinit var citiesList: List<City>
 
@@ -29,7 +30,7 @@ class SelectCityActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_city)
 
-        cityRepository = CityReporsitory(this)
+        cityDao = App.appDatabase.cityDao()
 
         // header view
         titleTextView.text = getString(R.string.select_city)
@@ -46,11 +47,11 @@ class SelectCityActivity : AppCompatActivity() {
 
         // get selected cities
         doAsync {
-            selectedFavoriteCities = cityRepository.getAllFavoriteCities()
+            selectedFavoriteCities = cityDao.getAllFavoriteCities()
         }.execute().get()
 
         doAsync {
-            citiesList = cityRepository.getAllCities()
+            citiesList = cityDao.getAll()
         }.execute().get()
 
         selectCityAdapter = SelectCityAdapter(this, ArrayList(citiesList), ArrayList(selectedFavoriteCities))
@@ -73,7 +74,7 @@ class SelectCityActivity : AppCompatActivity() {
     }
 
     private fun generateList(search: String) {
-        var filteredDataList = cityRepository.findSearchedCity(search)
+        var filteredDataList = cityDao.findByNameCountry(search, search)
         if (search.isEmpty()) {
             filteredDataList = citiesList
         }
@@ -90,7 +91,7 @@ class SelectCityActivity : AppCompatActivity() {
         for (i in 0 until selectCityAdapter.itemCount) {
             if (selectCityAdapter.getItem(i).isFavorite) {
                 val updateCity = selectCityAdapter.getItem(i)
-                cityRepository.updateCity(updateCity.isFavorite, updateCity.id)
+                cityDao.updateCity(updateCity.isFavorite, updateCity.id)
             }
         }
         val output = Intent()

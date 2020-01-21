@@ -11,24 +11,23 @@ import android.os.Looper
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
 import com.example.weatherforecast.adapters.CityAdapter
+import com.example.weatherforecast.application.App
 import com.example.weatherforecast.fragments.InfoDialog
 import com.example.weatherforecast.models.City
-import com.example.weatherforecast.models.CityReporsitory
+import com.example.weatherforecast.models.CityDao
 import com.example.weatherforecast.models.Coord
 import com.example.weatherforecast.utils.PermissionUtils
 import com.example.weatherforecast.utils.Utils
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
     var infoDialogFragment: InfoDialog? = null
-    private lateinit var cityRepository: CityReporsitory
+    private lateinit var cityDao: CityDao
     lateinit var cityAdapter: CityAdapter
     lateinit var activity: Activity
 
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         activity = this
-        cityRepository = CityReporsitory(this)
+        cityDao = App.appDatabase.cityDao()
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         favoriteCitiesRecycleView.adapter = cityAdapter
 
         doAsync {
-            favoriteItems = cityRepository.getAllFavoriteCities()
+            favoriteItems = cityDao.getAllFavoriteCities()
         }.execute().get()
 
         if (favoriteItems.isEmpty()) {
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // get current location
-        currentCity = cityRepository.getCurrentCity()
+        currentCity = cityDao.getCurrentCity()
         displayCurrentCity()
 
         checkLocation(true)
@@ -114,16 +113,7 @@ class MainActivity : AppCompatActivity() {
                     requestNewLocationData()
                 } else {
                     val coord = Coord(location.longitude, location.latitude)
-                    currentCity = cityRepository.getCityByCoord(coord)
-                    if (currentCity != null) {
-                        cityRepository.updateCurrentCity(true, currentCity!!.id)
-                    } else {
-                        doAsync {
-                            currentCity = Utils.getCurrentLocationAddress(activity, coord = coord)
-                        }.get()
-                    }
-                    currentCity!!.coord = coord
-                    displayCurrentCity()
+                    fetchCurrentCity(coord)
                 }
             }
         } else if (showDialog) {
@@ -152,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         }
         // handle selected cities
         if (resultCode == Activity.RESULT_OK) {
-            favoriteItems = cityRepository.getAllFavoriteCities()
+            favoriteItems = cityDao.getAllFavoriteCities()
 
             if (favoriteItems.isEmpty()) {
                 favoriteCitiesRecycleView.visibility = GONE
@@ -171,7 +161,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        var mLocationRequest = LocationRequest()
+        val mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
         mLocationRequest.fastestInterval = 0
@@ -188,16 +178,20 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location = locationResult.lastLocation
             val coord = Coord(mLastLocation.longitude, mLastLocation.latitude)
-            currentCity = cityRepository.getCityByCoord(coord)
-            if (currentCity != null) {
-                cityRepository.updateCurrentCity(true, currentCity!!.id)
-            } else {
-                currentCity = Utils.getCurrentLocationAddress(activity = activity, coord = coord)
-            }
-            displayCurrentCity()
+            fetchCurrentCity(coord)
         }
     }
 
+    fun fetchCurrentCity(coord: Coord) {
+        currentCity = cityDao.fetchCurrentCity(coord.lat, coord.lon)
+        if (currentCity != null) {
+            cityDao.updateCurrentCity(true, currentCity!!.id)
+        } else {
+            currentCity = Utils.getCurrentLocationAddress(activity = activity, coord = coord)
+        }
+        currentCity!!.coord = coord
+        displayCurrentCity()
+    }
 
     override fun onDestroy() {
         super.onDestroy()

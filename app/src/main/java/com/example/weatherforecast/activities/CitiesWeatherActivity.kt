@@ -61,6 +61,9 @@ class CitiesWeatherActivity : AppCompatActivity() {
         Picasso.get()
             .load("https://api.openweathermap.org/img/w/" + weatherResult.weather?.get(0)?.icon + ".png")
             .into(iconImageView)
+        Picasso.get()
+            .load("https://api.openweathermap.org/img/w/" + weatherResult.weather?.get(0)?.icon + ".png")
+            .into(weatherImageView)
     }
 
     private fun getCurrentWeather(selectedCityID: Int) {

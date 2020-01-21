@@ -5,14 +5,12 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.activities.CitiesWeatherActivity
+import com.example.weatherforecast.application.App
 import com.example.weatherforecast.models.City
-import com.example.weatherforecast.models.CityReporsitory
 import com.example.weatherforecast.utils.Utils
 import kotlinx.android.synthetic.main.city_row_item.view.*
 
@@ -50,8 +48,7 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
             deleteBtn.setOnClickListener {
 
                 Utils.showDialogActions(activity, "Are you sure you want to remove this city", "ok", "cancel", {
-                    val  cityRepository = CityReporsitory(activity)
-                    cityRepository.updateCity(isFavorite = false, cityId = field.id)
+                    App.appDatabase.cityDao().updateCity(isFavorite = false, cityId = field.id)
 
                     favoriteCityList.remove(field)
                     updateList(favoriteCityList)

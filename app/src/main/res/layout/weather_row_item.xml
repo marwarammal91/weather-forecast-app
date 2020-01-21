@@ -22,17 +22,17 @@
             android:paddingEnd="20dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/weatherImageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:contentDescription="@string/icon"
-                android:src="@drawable/ic_current_pin"
-                android:visibility="invisible"/>
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_current_pin" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/imageView"
+                android:layout_toEndOf="@+id/weatherImageView"
                 android:orientation="vertical">
 
                 <TextView
