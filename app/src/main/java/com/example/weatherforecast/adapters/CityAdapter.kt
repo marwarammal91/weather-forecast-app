@@ -39,22 +39,12 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
 
     inner class CityHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var cityText = itemView.cityItemText
-        private var deleteBtn = itemView.deleteBtn
+        private var countryText = itemView.counttryItemText
         var holderLayout: LinearLayout = itemView.holderLayout
 
         fun bind(field: City) {
-            cityText.text = field.toString()
-
-            deleteBtn.setOnClickListener {
-
-                Utils.showDialogActions(activity, "Are you sure you want to remove this city", "ok", "cancel", {
-                    App.appDatabase.cityDao().updateCity(isFavorite = false, cityId = field.id)
-
-                    favoriteCityList.remove(field)
-                    updateList(favoriteCityList)
-                    notifyDataSetChanged()
-                }, null)
-            }
+            cityText.text = field.name
+            countryText.text = field.country
 
             holderLayout.setOnClickListener{
                 val intent = Intent(activity, CitiesWeatherActivity::class.java)
@@ -62,7 +52,7 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
                 intent.putExtra("isCurrent", false)
                 intent.putExtra("latitude", field.coord?.lat)
                 intent.putExtra("longitude", field.coord?.lon)
-                activity.startActivity(intent)
+                activity.startActivityForResult(intent, 5555)
             }
         }
     }

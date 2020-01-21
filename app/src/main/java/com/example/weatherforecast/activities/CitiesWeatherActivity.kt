@@ -2,6 +2,7 @@ package com.example.weatherforecast.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.R
 import com.example.weatherforecast.adapters.CityAdapter
 import com.example.weatherforecast.adapters.WeatherAdapter
+import com.example.weatherforecast.application.App
 import com.example.weatherforecast.beans.GetCurrentWeatherResult
 import com.example.weatherforecast.beans.GetForecastWeatherResult
 import com.example.weatherforecast.services.WeatherService
@@ -44,8 +46,19 @@ class CitiesWeatherActivity : AppCompatActivity() {
 
         if (!isCurrentCity) {
             getCurrentWeather(selectedCityID)
+            deleteBtn.visibility = VISIBLE
         } else {
             getForecastWeather(latitude, longitude)
+        }
+
+        deleteBtn.setOnClickListener {
+
+            Utils.showDialogActions(activity, "Are you sure you want to remove this city", "ok", "cancel", {
+                App.appDatabase.cityDao().updateCity(isFavorite = false, cityId = selectedCityID)
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }, null)
         }
     }
 

@@ -35,8 +35,23 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:text="@string/select"
+        android:background="@drawable/ic_arrow_next"
         android:textColor="@color/colorWhite"
         android:visibility="gone"
         tools:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/deleteBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:drawableTint="@color/colorWhite"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_delete"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:contentDescription="@string/icon" />
 
 </RelativeLayout>

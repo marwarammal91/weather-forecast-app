@@ -85,6 +85,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     private val onClickListeners =  View.OnClickListener { view ->
         when (view.id) {
             R.id.addCityBtn -> {
@@ -126,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun displayCurrentCity () {
+    private fun displayCurrentCity () {
         if (currentCity != null) {
             currentlocLayout.visibility = VISIBLE
             currentCityText.text = currentCity!!.name
@@ -196,12 +200,5 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         infoDialogFragment?.dismissAllowingStateLoss()
-    }
-
-    class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
-        override fun doInBackground(vararg params: Void?): Void? {
-            handler()
-            return null
-        }
     }
 }
