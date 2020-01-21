@@ -1,19 +1,19 @@
-//package com.marwarammal.weatherforecast.activities
+// package com.marwarammal.weatherforecast.activities
 //
-//import android.Manifest
-//import android.app.Activity
-//import android.content.Intent
-//import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-//import androidx.test.rule.ActivityTestRule
-//import androidx.test.rule.GrantPermissionRule
-//import com.marwarammal.weatherforecast.utils.PermissionUtils
-//import org.junit.Before
-//import org.junit.Rule
-//import org.junit.Test
-//import org.junit.runner.RunWith
+// import android.Manifest
+// import android.app.Activity
+// import android.content.Intent
+// import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+// import androidx.test.rule.ActivityTestRule
+// import androidx.test.rule.GrantPermissionRule
+// import com.marwarammal.weatherforecast.utils.PermissionUtils
+// import org.junit.Before
+// import org.junit.Rule
+// import org.junit.Test
+// import org.junit.runner.RunWith
 //
-//@RunWith(AndroidJUnit4ClassRunner::class)
-//class SplashActivityTest {
+// @RunWith(AndroidJUnit4ClassRunner::class)
+// class SplashActivityTest {
 //
 //    lateinit var activity: Activity
 //
@@ -46,4 +46,4 @@
 //            )
 //        )
 //    }
-//}
+// }

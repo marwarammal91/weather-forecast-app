@@ -12,6 +12,11 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.marwarammal.weatherforecast.R
 import com.marwarammal.weatherforecast.adapters.CityAdapter
 import com.marwarammal.weatherforecast.application.App
@@ -21,11 +26,6 @@ import com.marwarammal.weatherforecast.models.CityDao
 import com.marwarammal.weatherforecast.models.Coord
 import com.marwarammal.weatherforecast.utils.PermissionUtils
 import com.marwarammal.weatherforecast.utils.Utils
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
