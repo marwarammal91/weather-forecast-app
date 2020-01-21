@@ -86,9 +86,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
 
     private val onClickListeners =  View.OnClickListener { view ->
         when (view.id) {

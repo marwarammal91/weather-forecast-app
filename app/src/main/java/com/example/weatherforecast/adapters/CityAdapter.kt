@@ -47,13 +47,18 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
             countryText.text = field.country
 
             holderLayout.setOnClickListener{
-                val intent = Intent(activity, CitiesWeatherActivity::class.java)
-                intent.putExtra("selectedCity", field.id)
-                intent.putExtra("selectedName", field.name)
-                intent.putExtra("isCurrent", false)
-                intent.putExtra("latitude", field.coord?.lat)
-                intent.putExtra("longitude", field.coord?.lon)
-                activity.startActivityForResult(intent, 5555)
+
+                if (favoriteCityList.size >= 3) {
+                    val intent = Intent(activity, CitiesWeatherActivity::class.java)
+                    intent.putExtra("selectedCity", field.id)
+                    intent.putExtra("selectedName", field.name)
+                    intent.putExtra("isCurrent", false)
+                    intent.putExtra("latitude", field.coord?.lat)
+                    intent.putExtra("longitude", field.coord?.lon)
+                    activity.startActivityForResult(intent, 5555)
+                } else {
+                    Utils.showAlertDialog(activity, activity.getString(R.string.cities_count_alert), "Ok" , false)
+                }
             }
         }
     }

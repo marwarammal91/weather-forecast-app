@@ -27,4 +27,7 @@
     <string name="cancel">Cancel</string>
 
     <string name="remove_alert">Are you sure you want to remove this city from favorites?</string>
+
+    <string name="cities_count_alert">You should select min 3 cities to view the weather</string>
+
 </resources>
