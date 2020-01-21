@@ -1,5 +1,5 @@
 # weather-forecast-app
-Sample android application to fetch the weather forecast of multiple cities using Open Weather API
+Sample android application to fetch the weather forecast of multiple cities using Open Weather API - [OpenWeatherAPI](https://openweathermap.org/)
 
 ## Installation
 Clone this repository and import into **Android Studio**
@@ -16,6 +16,15 @@ From Android Studio:
 1. ***Build*** menu
 2. ***Generate Signed APK...***
 3. Fill in the keystore information *(you only need to do this once manually and then let Android Studio remember it)*
+
+
+## Generate jacoco report
+From Android Studio:
+1. Go to ***terminal*** 
+2. Run the command: `./gradlew createDebugCoverageReport`
+3. Go to path to build directory `forecast-weather-app/app/build/reports/coverage`
+4. Click on ***index.html*** to see the report
+
 
 ## Maintainers
 This project is mantained by:
