@@ -1,5 +1,5 @@
 # weather-forecast-app
-Sample android application to fetch the weather forecast of multiple cities using Open Weather API - [OpenWeatherAPI](https://openweathermap.org/)
+Sample android application to fetch the weather forecast of multiple cities using Open Weather API - [openweathermap.org](https://openweathermap.org/)
 
 ## Installation
 Clone this repository and import into **Android Studio**
