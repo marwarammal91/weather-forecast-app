@@ -67,43 +67,64 @@ class CitiesWeatherActivity : AppCompatActivity() {
     }
 
     private fun getCurrentWeather(selectedCityID: Int) {
-        progressBar.visibility = VISIBLE
+        if (Utils.checkNetwork(activity)) {
+            progressBar.visibility = VISIBLE
 
-        weatherService!!.getCurrentWeather(selectedCityID, object: WeatherService.IWeatherHandler {
-            override fun onAPISuccess(response: Any) {
-                progressBar.visibility = GONE
-                detailsView.visibility = VISIBLE
+            weatherService!!.getCurrentWeather(
+                selectedCityID,
+                object : WeatherService.IWeatherHandler {
+                    override fun onAPISuccess(response: Any) {
+                        progressBar.visibility = GONE
+                        detailsView.visibility = VISIBLE
 
-                val getCurrentWeatherResult = response as GetCurrentWeatherResult
-                titleTextView.text = getCurrentWeatherResult.name
-                updateView(getCurrentWeatherResult)
-            }
+                        val getCurrentWeatherResult = response as GetCurrentWeatherResult
+                        titleTextView.text = getCurrentWeatherResult.name
+                        updateView(getCurrentWeatherResult)
+                    }
 
-            override fun onAPIFailure(code: Int, message: String) {
-                progressBar.visibility = GONE
-                Utils.showAlertDialog(activity, message, "Ok", true )
-            }
-        })
+                    override fun onAPIFailure(code: Int, message: String) {
+                        progressBar.visibility = GONE
+                        Utils.showAlertDialog(activity, message, "Ok", true)
+                    }
+                })
+        } else {
+            Utils.showDialogActions(activity, getString(R.string.no_internet), getString(R.string.retry), getString(R.string.cancel), {
+                getCurrentWeather(selectedCityID)
+            }, {
+                finish()
+            })
+        }
     }
 
     private fun getForecastWeather(latitude: Double, longitude: Double) {
-        progressBar.visibility = VISIBLE
+        if (Utils.checkNetwork(activity)) {
+            progressBar.visibility = VISIBLE
 
-        weatherService!!.getForecastWeather(latitude, longitude, object: WeatherService.IWeatherHandler {
-            override fun onAPISuccess(response: Any) {
-                progressBar.visibility = GONE
+            weatherService!!.getForecastWeather(
+                latitude,
+                longitude,
+                object : WeatherService.IWeatherHandler {
+                    override fun onAPISuccess(response: Any) {
+                        progressBar.visibility = GONE
 
-                val getForecastWeatherResult = response as GetForecastWeatherResult
-                titleTextView.text = getForecastWeatherResult.city!!.name
-                displayForecastWeather(getForecastWeatherResult)
-            }
+                        val getForecastWeatherResult = response as GetForecastWeatherResult
+                        titleTextView.text = getForecastWeatherResult.city!!.name
+                        displayForecastWeather(getForecastWeatherResult)
+                    }
 
-            override fun onAPIFailure(code: Int, message: String) {
-                progressBar.visibility = GONE
-                Utils.showAlertDialog(activity, message, "Ok", true )
-            }
+                    override fun onAPIFailure(code: Int, message: String) {
+                        progressBar.visibility = GONE
+                        Utils.showAlertDialog(activity, message, "Ok", true)
+                    }
 
-        })
+                })
+        } else {
+            Utils.showDialogActions(activity, getString(R.string.no_internet), getString(R.string.retry), getString(R.string.cancel), {
+                getForecastWeather(latitude, longitude)
+            }, {
+                finish()
+            })
+        }
     }
 
     fun displayForecastWeather(getForecastWeatherResult: GetForecastWeatherResult) {

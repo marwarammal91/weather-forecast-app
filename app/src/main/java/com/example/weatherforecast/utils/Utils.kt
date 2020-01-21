@@ -5,6 +5,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.location.Geocoder
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import java.text.SimpleDateFormat
 import android.os.Handler
 import com.example.weatherforecast.models.City
@@ -59,6 +62,19 @@ object Utils {
             Locale.US
         )
         return formatter.format(date)
+    }
+
+    fun checkNetwork(activity: Activity): Boolean {
+        (activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {
+            return getNetworkCapabilities(activeNetwork)?.run {
+                when {
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                    else -> false
+                }
+            } ?: false
+        }
     }
 
     // region "alert dialogs"
