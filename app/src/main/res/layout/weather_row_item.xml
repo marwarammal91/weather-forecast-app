@@ -20,7 +20,8 @@
             android:background="@color/colorWhite"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:paddingEnd="20dp">
+            android:paddingEnd="20dp"
+            tools:ignore="RtlSymmetry">
 
             <ImageView
                 android:id="@+id/weatherImageView"
@@ -64,7 +65,7 @@
                 android:textSize="22sp"
                 android:textColor="@color/colorOrange"
                 android:textStyle="bold"
-                android:text="12 *c" />
+                tools:text="12 *c" />
 
         </RelativeLayout>
 
@@ -85,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="@color/light_darkgray"
-                    android:text="Description" />
+                    android:text="@string/description" />
 
                 <TextView
                     android:id="@+id/dexrTxtView"
@@ -117,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="@color/light_darkgray"
-                    android:text="min Temp / max Temp" />
+                    android:text="@string/min_max_temp" />
 
                 <TextView
                     android:id="@+id/minTempTxtView"
@@ -149,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="@color/light_darkgray"
-                    android:text="Wind" />
+                    android:text="@string/wind" />
 
                 <TextView
                     android:id="@+id/windTxtView"

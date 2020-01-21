@@ -6,6 +6,4 @@ import java.io.Serializable
 class Wind : Serializable {
     @SerializedName("speed")
     val speed: Double? = null
-    @SerializedName("deg")
-    val deg: Int? = null
 }

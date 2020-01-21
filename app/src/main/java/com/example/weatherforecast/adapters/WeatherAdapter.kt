@@ -15,7 +15,7 @@ import com.example.weatherforecast.utils.Utils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.weather_row_item.view.*
 
-class WeatherAdapter(internal var activity: Activity, internal var list: List<WeatherList>, internal var cityName: String) :
+class WeatherAdapter(internal var activity: Activity, internal var list: List<WeatherList>, private var cityName: String) :
     RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

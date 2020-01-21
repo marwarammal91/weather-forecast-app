@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.weatherforecast.models.City
 import com.example.weatherforecast.models.CityDao
 
-@Database(entities = [City::class], version = 1)
+@Database(entities = [City::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cityDao(): CityDao
 
@@ -23,9 +23,5 @@ abstract class AppDatabase : RoomDatabase() {
             AppDatabase::class.java, "weather-app.db")
             .allowMainThreadQueries()
             .build()
-
-        fun deleteInstance() {
-            instance = null
-        }
     }
 }

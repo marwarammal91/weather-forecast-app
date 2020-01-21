@@ -33,15 +33,15 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    var infoDialogFragment: InfoDialog? = null
+    private var infoDialogFragment: InfoDialog? = null
     private lateinit var cityDao: CityDao
-    lateinit var cityAdapter: CityAdapter
+    private lateinit var cityAdapter: CityAdapter
     lateinit var activity: Activity
-    lateinit var favoriteItems: List<City>
-    var currentCity: City? = null
-    val SELECT_CITY_CODE = 100
-    val ACTIVITY_RESULT_ENABLE_LOCATION_SETTINGS = 333
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var favoriteItems: List<City>
+    private var currentCity: City? = null
+    private val SELECT_CITY_CODE = 100
+    private val ACTIVITY_RESULT_ENABLE_LOCATION_SETTINGS = 333
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

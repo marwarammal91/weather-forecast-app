@@ -17,15 +17,14 @@ import com.example.weatherforecast.services.WeatherService
 import com.example.weatherforecast.utils.Utils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_cities_weather.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_header.*
 import kotlinx.android.synthetic.main.weather_row_item.*
 
 class CitiesWeatherActivity : AppCompatActivity() {
 
-    var weatherService: WeatherService? = null
+    private var weatherService: WeatherService? = null
     lateinit var activity: Activity
-    var currentCityName: String = ""
+    private var currentCityName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

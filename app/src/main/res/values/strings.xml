@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
 
-    <string name="skip_btn">Skip >></string>
     <string name="icon">icon</string>
     <string name="select_cities">Select your favorite cities</string>
 
-    <string name="next">Next</string>
     <string name="got_it">Got It</string>
 
     <string name="manage_cities_rule">About Manage Cities</string>
@@ -29,5 +27,7 @@
     <string name="remove_alert">Are you sure you want to remove this city from favorites?</string>
 
     <string name="cities_count_alert">You should select min 3 cities to view the weather</string>
-
+    <string name="description">Description</string>
+    <string name="min_max_temp">min Temp / max Temp</string>
+    <string name="wind">Wind</string>
 </resources>

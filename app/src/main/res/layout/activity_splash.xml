@@ -7,38 +7,25 @@
     android:background="@color/colorPrimary"
     tools:context=".activities.SplashActivity">
 
-
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:drawableStart="@drawable/ic_logo_icon"
+        android:textSize="30sp"
+        android:textStyle="bold"
         android:orientation="horizontal"
+        android:drawableTint="@android:color/white"
+        android:drawablePadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/colorWhite"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_logo_icon"
-            android:tint="@color/colorWhite" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="@string/app_name"
-            android:textColor="@color/colorWhite"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+    </TextView>
 
     <RelativeLayout
         android:id="@+id/progressBar"

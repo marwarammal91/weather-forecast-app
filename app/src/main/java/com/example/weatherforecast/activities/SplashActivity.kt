@@ -27,8 +27,8 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var cityDao: CityDao
     private lateinit var activity: Activity
-    val PERMISSION_ID = 200
-    val ACTIVITY_RESULT_LOCATION_PERMISSION_SETTINGS = 300
+    private val PERMISSION_ID = 200
+    private val ACTIVITY_RESULT_LOCATION_PERMISSION_SETTINGS = 300
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

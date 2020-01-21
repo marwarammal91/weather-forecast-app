@@ -39,7 +39,7 @@ class CityAdapter(val activity: Activity, var favoriteCityList: ArrayList<City>)
     inner class CityHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var cityText = itemView.cityItemText
         private var countryText = itemView.counttryItemText
-        var holderLayout: LinearLayout = itemView.holderLayout
+        private var holderLayout: LinearLayout = itemView.holderLayout
 
         fun bind(field: City) {
             cityText.text = field.name
