@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
@@ -55,6 +54,7 @@ class SplashActivity : AppCompatActivity() {
                 )
             }
         } else {
+            progressBar.visibility = VISIBLE
             checkCities()
         }
     }
@@ -62,7 +62,6 @@ class SplashActivity : AppCompatActivity() {
     private fun checkCities() {
         GlobalScope.launch(Dispatchers.IO) {
             if (cityDao.getAll().isEmpty()) {
-                progressBar.visibility = VISIBLE
                 LoadCitiesTask(cityDao, activity, progressBar).execute()
             } else {
                 navigateToCitiesActivity()
@@ -101,9 +100,11 @@ class SplashActivity : AppCompatActivity() {
                         "Ok",
                         false
                     )
+                    progressBar.visibility = VISIBLE
                     checkCities()
                 }
             } else {
+                progressBar.visibility = VISIBLE
                 checkCities()
             }
         }
@@ -127,8 +128,10 @@ class SplashActivity : AppCompatActivity() {
                     "Ok",
                     false
                 )
+                progressBar.visibility = VISIBLE
                 checkCities()
             } else {
+                progressBar.visibility = VISIBLE
                 checkCities()
             }
         }

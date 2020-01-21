@@ -2,7 +2,6 @@ package com.example.weatherforecast.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View.VISIBLE
 import android.widget.SearchView
@@ -50,11 +49,17 @@ class SelectCityActivity : AppCompatActivity() {
         rvMultiSelect.layoutManager = llManager
 
         // get selected cities
-        GlobalScope.launch(Dispatchers.Main) {
-            selectedFavoriteCities = cityDao.getAllFavoriteCities()
-            citiesList = cityDao.getAll()
-            selectCityAdapter = SelectCityAdapter(activity, ArrayList(citiesList), ArrayList(selectedFavoriteCities))
-            rvMultiSelect.adapter = selectCityAdapter
+        GlobalScope.launch(Dispatchers.IO) {
+            GlobalScope.launch(Dispatchers.Main) {
+                selectedFavoriteCities = cityDao.getAllFavoriteCities()
+                citiesList = cityDao.getAll()
+                selectCityAdapter = SelectCityAdapter(
+                    activity,
+                    ArrayList(citiesList),
+                    ArrayList(selectedFavoriteCities)
+                )
+                rvMultiSelect.adapter = selectCityAdapter
+            }
         }
 
         // search view

@@ -1,5 +1,6 @@
 package com.example.weatherforecast.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -78,7 +79,15 @@ class MainActivity : AppCompatActivity() {
         currentCity = cityDao.getCurrentCity()
         displayCurrentCity()
 
-        checkLocation(true)
+        val isPermissionGranted =
+            PermissionUtils.isPermissionGranted(this, Manifest.permission.ACCESS_COARSE_LOCATION) &&
+                    PermissionUtils.isPermissionGranted(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+        if (isPermissionGranted) {
+            checkLocation(true)
+        }
 
         currentlocLayout.setOnClickListener {
             val intent = Intent(activity, CitiesWeatherActivity::class.java)
